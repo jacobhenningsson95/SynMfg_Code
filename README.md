@@ -105,20 +105,21 @@ All configurations for the generation is made in `config-sample.json`. Copy this
 
 Run `python generation_main.py --config config-sample.json` to start the generation.
 
-## Citations
+## Training Yolov8 model  
 
-.obj files used from Horváth et al. accessed from their [gitlab](https://git.sztaki.hu/emi/sim2real-object-detection/-/tree/master).
+After generating synthetic data, 
 
-```bibtex
-@article{horvath_sim2real_obj_2023,
-  title = {Object {Detection} {Using} {Sim2Real} {Domain} {Randomization} for {Robotic} {Applications}},
-  volume = {39},
-  issn = {1941-0468},
-  doi = {10.1109/TRO.2022.3207619},
-  url = {http://doi.org/10.1109/TRO.2022.3207619},
-  journal = {IEEE Transactions on Robotics},
-  author = {Horváth, Dániel and Erdős, Gábor and Istenes, Zoltán and Horváth, Tomáš and Földi, Sándor},
-  month = apr,
-  year = {2023},
-  pages = {1225--1243},
-}
+## Acknowledgement
+The robotic dataset is from Horváth et al., including their .obj files and real images accessed from their [GitLab repository](https://git.sztaki.hu/emi/sim2real-object-detection/-/tree/master). Thanks for their great work!
+
+We also thank previous works in domain randomization for industrial applications, including:
+- [Tobin et al.](https://ieeexplore.ieee.org/document/8202133)
+- [Eversberg and Lambrecht](https://www.mdpi.com/1424-8220/21/23/7901)
+- [Horváth et al.](https://ieeexplore.ieee.org/document/9916581)
+
+<!-- Citation section -->
+## Citation 
+If you find our work helpful for your research, please consider citing the following BibTeX entry.
+
+To be added.
+
