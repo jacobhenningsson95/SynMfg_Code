@@ -1,6 +1,9 @@
 # Domain Randomization for Object Detection in Manufacturing Applications using Synthetic Data: A Comprehensive Study
 
-This code generates synthetic data using domain randomization. Models trained only on those synthetic data perform well on real-world data. Below are samples of the synthetic data and their real-world counterparts.
+This code generates synthetic data from 3D models using domain randomization. We use two datasets to generate synthetic images and train an object detection model, which performs well on real-world data.  
+1. **Robotic Dataset**: Published by [Horváth et al.](https://ieeexplore.ieee.org/document/9916581), which provides both 3D models and real images.
+2.  **SIP15-OD Dataset**: Developed by us. It contains 15 manufacturing object 3D models across three use cases, along with 395 real images featuring 996 annotated objects taken in various manufacturing environments.
+Below are samples of the synthetic data and their real-world counterparts from the robotic dataset, as well as the three use cases from the SIP-15-OD dataset.  
 
 <table>
   <tr>
@@ -57,7 +60,9 @@ SynMfg_Code/
 
 ## 3D model preparation
 
-This repository contains .obj files for use with this pipeline. To prepare other 3D models for use with the pipeline efficiently they should follow these criteria:
+The 3D models in .obj format of the first robotic dataset are already included in `data/Objects/Robotic`. These models are from [Horváth et al.](https://ieeexplore.ieee.org/document/9916581).  
+The 3D models of the SIP15-OD datasets are coming soon.  
+To prepare other 3D models for use with the pipeline efficiently they should follow these criteria:
 
 1. .obj format. The pipeline **ONLY** handles .obj files.
 2. The different 3d models should be scaled proportionally to eachother and the models needs to be centered in world space.
