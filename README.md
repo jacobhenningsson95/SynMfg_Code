@@ -37,7 +37,7 @@ SynMfg_Code/
 
 ### Download PBR textures
 1. Run `blenderproc download cc_textures data/PBR_Textures`. It downloads textures from cc0textures.com.
-Note: To use specific material textures like metal, create a new folder named data/Metal_Textures and place only the metal textures from the cc_textures data there.
+ **Note:** To use specific material textures like metal, create a new folder named `data/Metal_Textures` and place only the metal textures from the `cc_textures` data there.
 
 
 ## Configuration file
