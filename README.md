@@ -55,6 +55,14 @@ SynMfg_Code/
 1. Run `blenderproc download cc_textures data/PBR_Textures`. It downloads textures from [cc0textures.com](https://cc0textures.com).
 2. To use specific material textures like metal, create a new folder named `data/Metal_Textures` and place only the metal textures from the `cc_textures` data there.
 
+## 3D model preparation
+
+This repository contains .obj files for use with this pipeline. To prepare other 3D models for use with the pipeline efficiently they should follow these criteria:
+
+1. .obj format. The pipeline **ONLY** handles .obj files.
+2. The different 3d models should be scaled proportionally to eachother and the models needs to be centered in world space.
+3. No overlapping vertices. If a model contains overlapping vertices parts of the pipeline will run inefficiently and automatic texture mapping will be less successful.
+To mitigate this Blender's `Merge vertices` function can be used to remove overlapping vertices. 
 
 ## Configuration file
 
