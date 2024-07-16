@@ -3,9 +3,20 @@
 This code is generates synthetic data using domain randomization. 
 
 
-| ![Image 1](Figures/rb.PNG) | ![Image 2](Figures/us1.PNG) | ![Image 3](Figures/us2.PNG) | ![Image 4](Figures/us3.PNG) |
-|----------------------------|----------------------------|----------------------------|----------------------------|
-| ![Image 5](Figures/rb_real.png) | ![Image 6](Figures/Us1_s3.png) | ![Image 7](Figures/Us2_s1.jpg) | ![Image 8](Figures/Us3_s3.png) |  
+<table>
+  <tr>
+    <td><img src="Figures/rb.PNG" alt="Image 1" width="200"/></td>
+    <td><img src="Figures/us1.PNG" alt="Image 2" width="200"/></td>
+    <td><img src="Figures/us2.PNG" alt="Image 3" width="200"/></td>
+    <td><img src="Figures/us3.PNG" alt="Image 4" width="200"/></td>
+  </tr>
+  <tr>
+    <td><img src="Figures/rb_real.png" alt="Image 5" width="200"/></td>
+    <td><img src="Figures/Us1_s3.png" alt="Image 6" width="200"/></td>
+    <td><img src="Figures/Us2_s1.jpg" alt="Image 7" width="200"/></td>
+    <td><img src="Figures/Us3_s3.png" alt="Image 8" width="200"/></td>
+  </tr>
+</table>
 
 
 ## Setup Python environment
