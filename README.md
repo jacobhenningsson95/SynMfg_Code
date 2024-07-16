@@ -71,12 +71,12 @@ To mitigate this Blender's `Merge vertices` function can be used to remove overl
 
 ## Configuration file
 
-All configurations for the generation is made in `config-sample.json`. Copy this sample config file to make changes. 
+Our data generation pipeline considers five components of DR: object characteristics, background, illumination, camera settings, and post-processing. The range of random settings for these components is defined in the config-sample.json file. To customize these settings, copy the sample configuration file and make the necessary changes. Once the desired parameters are set, the pipeline generates synthetic data accordingly. The parameters specified in the configuration file for the five DR components and rendering are detailed in the table below:  
 
 | Parameter                       | Description                                                                                       | Value                                |
 |---------------------------------|---------------------------------------------------------------------------------------------------|--------------------------------------|
 | **Background**                                                                                                                                                             |
-| background_texture_type         | Random images from the BG-20L dataset.                                                            | 0                                    |
+| background_texture_type         | Type of texture: 1: no texture; 2: Random images from the BG-20L dataset.                         | 2                                    |
 | total_distracting_objects       | Maximum number of distractors in the scene.                                                       | 10                                   |
 | **Object**                      |                                                                                                   |                                      |
 | max_objects                     | Maximum number of objects; Set to -1 includes all objects and empty background images.            | -1                                   |
@@ -123,7 +123,7 @@ All configurations for the generation is made in `config-sample.json`. Copy this
 | image_gaussian_blur_sigma_min   | Min sigma value for Gaussian blur.                                                                | 1                                    |
 | image_gaussian_blur_sigma_max   | Max sigma value for Gaussian blur.                                                                | 3                                    |
 | **Rendering**                   |                                                                                                   |                                      |
-| generate_nr_samples             | Total number of synthetic images to generate.                                                     | 5000                                 |
+| generate_nr_samples             | Total number of synthetic images to generate.                                                     | 4000                                 |
 | nr_blender_instances            | Number of blender instances to run.                                                               | 10                                   |
 | render_image_width              | Width of the rendered image.                                                                      | 720                                  |
 | render_image_height             | Height of the rendered image.                                                                     | 720                                  |
@@ -131,7 +131,7 @@ All configurations for the generation is made in `config-sample.json`. Copy this
 | background_samples              | Include background images without objects.                                                        | TRUE                                 |
 | segmentations                   | Whether to generate segmentation mask annotations.                                                | TRUE                                 |
 | clean_paths                     | If true, start rendering anew; if false, continue from previous.                                  | TRUE                                 |
-| object_label                    | Labels of the 3D objects.                                                                         | {"0": "CouplingHalf.obj", "1": "Cross.obj", etc.} |  
+| object_label                    | Labels of the 3D objects.                                                                         | {"0": "L-bracket.obj", "1": "U-bracket.obj", etc.} |  
 
 ## Running the pipeline
 
