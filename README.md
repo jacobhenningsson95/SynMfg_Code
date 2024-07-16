@@ -34,8 +34,10 @@ SynMfg_Code/
 1. Go to [Flickr 8k Dataset](https://www.kaggle.com/datasets/adityajn105/flickr8k/).
 2. Download all image files.
 3. Put all images into `data/Texture_Images`.
+
 ### Download PBR textures
 1. Run `blenderproc download cc_textures data/PBR_Textures`. It downloads textures from cc0textures.com.
+Note: To use specific material textures like metal, create a new folder named data/Metal_Textures and place only the metal textures from the cc_textures data there.
 
 
 ## Configuration file
@@ -45,10 +47,10 @@ All configurations for the generation is made in `config-sample.json`. Copy this
 | Parameter                       | Description                                                                                       | Value                                |
 |---------------------------------|---------------------------------------------------------------------------------------------------|--------------------------------------|
 | **Background**                  |                                                                                                   |                                      |
-| background_texture_type         | Random images from the BG-20L dataset. \cite{bg20kDataset}                                        | 0                                    |
+| background_texture_type         | Random images from the BG-20L dataset.                                                            | 0                                    |
 | total_distracting_objects       | Maximum number of distractors in the scene.                                                       | 10                                   |
 | **Object**                      |                                                                                                   |                                      |
-| max_objects                     | Maximum number of objects; Set to -1 includes all objects and empty backgrounds images.           | -1                                   |
+| max_objects                     | Maximum number of objects; Set to -1 includes all objects and empty background images.            | -1                                   |
 | multiple_of_same_object         | Allow multiple instances of the same object in one scene.                                         | TRUE                                 |
 | object_weights                  | Weights for object categories; [] for equal distribution.                                         | []                                   |
 | nr_objects_weights              | Weights for the number of objects; [] for equal distribution.                                     | []                                   |
@@ -58,14 +60,14 @@ All configurations for the generation is made in `config-sample.json`. Copy this
 | object_rotation_y_max           | Max y-axis rotation angle for objects.                                                            | 360                                  |
 | object_distance_scale_min       | Min ratio of distance between objects; Set to 0.53 to prevents overlap.                           | 0.53                                 |
 | object_distance_scale_max       | Max ratio of distance between objects.                                                            | 1                                    |
-| objects_texture_type            | Type of textures: 1: RGB; 2: image \cite{Hodosh2013Flickr}; 3: PBR materials \cite{Demes2023Texture}; 0: random. | 3                                    |
+| objects_texture_type            | Type of textures: 1: RGB; 2: image; 3: PBR materials; 0: random.                                  | 3                                    |
 | **Camera**                      |                                                                                                   |                                      |
 | camera_zoom_min                 | Minimum zoom level of the camera.                                                                 | 0.1                                  |
 | camera_zoom_max                 | Maximum zoom level of the camera.                                                                 | 0.7                                  |
 | camera_theta_min                | Minimum azimuthal angle of the camera.                                                            | 0                                    |
 | camera_theta_max                | Maximum azimuthal angle of the camera.                                                            | 360                                  |
 | camera_phi_min                  | Minimum polar angle of the camera.                                                                | 0                                    |
-| camera_phi_max                  | Maximum polar angle of the camera. Max: 90 degree.                                                | 60                                   |
+| camera_phi_max                  | Maximum polar angle of the camera. Max: 90 degrees.                                                | 60                                   |
 | camera_focus_point_x_shift_min  | Min shift in the x-direction for the camera focus point.                                          | 0                                    |
 | camera_focus_point_x_shift_max  | Max shift in the x-direction for the camera focus point.                                          | 0.5                                  |
 | camera_focus_point_y_shift_min  | Min shift in the y-direction for the camera focus point.                                          | 0                                    |
@@ -88,7 +90,7 @@ All configurations for the generation is made in `config-sample.json`. Copy this
 | image_sp_noise_probability      | Probability of applying salt-and-pepper noise (0-1).                                              | 0.1                                  |
 | image_sp_noise_amount_min       | Min amount of salt-and-pepper noise.                                                              | 0.01                                 |
 | image_sp_noise_amount_max       | Max amount of salt-and-pepper noise.                                                              | 0.05                                 |
-| image_gaussian_blur_probability | Probability of applying Gaussian blur (0-1).                                                     | 0.1                                  |
+| image_gaussian_blur_probability | Probability of applying Gaussian blur (0-1).                                                      | 0.1                                  |
 | image_gaussian_blur_sigma_min   | Min sigma value for Gaussian blur.                                                                | 1                                    |
 | image_gaussian_blur_sigma_max   | Max sigma value for Gaussian blur.                                                                | 3                                    |
 | **Rendering**                   |                                                                                                   |                                      |
@@ -99,6 +101,7 @@ All configurations for the generation is made in `config-sample.json`. Copy this
 | render_image_format             | Format of the rendered image (PNG or JPEG).                                                       | PNG                                  |
 | background_samples              | Include background images without objects.                                                        | TRUE                                 |
 | segmentations                   | Whether to generate segmentation mask annotations.                                                | TRUE                                 |
+| clean_paths                     | If true, start rendering anew; if false, continue from previous.                                  | TRUE                                 |
 | object_label                    | Labels of the 3D objects.                                                                         | {"0": "CouplingHalf.obj", "1": "Cross.obj", etc.} |
 
 ## Running the pipeline
