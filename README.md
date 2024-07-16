@@ -133,6 +133,8 @@ Our data generation pipeline considers five components of DR: object characteris
 | clean_paths                     | If true, start rendering anew; if false, continue from previous.                                  | TRUE                                 |
 | object_label                    | Labels of the 3D objects.                                                                         | {"0": "L-bracket.obj", "1": "U-bracket.obj", etc.} |  
 
+Unless otherwise specified, the ranges are as follows: angles (0 to 360 degrees), ratios (0 to 1), colors (0 to 255), and other numbers (0 to unlimited).  
+
 ## Running the pipeline
 
 Run `python generation_main.py --config config-sample.json` to start the generation.
