@@ -1,7 +1,6 @@
 # Domain Randomization for Object Detection in Manufacturing Applications using Synthetic Data: A Comprehensive Study
 
-This code is generates synthetic data using domain randomization. 
-
+This code generates synthetic data using domain randomization. Models trained only on those synthetic data perform well on real-world data. Below are samples of the synthetic data and their real-world counterparts.
 
 <table>
   <tr>
