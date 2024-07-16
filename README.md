@@ -2,9 +2,15 @@
 
 This code is generates synthetic data using domain randomization. 
 
+### Samples of synthetic images
+
 | ![Image 1](Figures/rb.PNG) | ![Image 2](Figures/us1.PNG) | ![Image 3](Figures/us2.PNG) | ![Image 4](Figures/us3.PNG) |
-|--------------------------------|--------------------------------|--------------------------------|--------------------------------|
+|----------------------------|----------------------------|----------------------------|----------------------------|
+
+### Samples of real images
+
 | ![Image 5](Figures/Us2_s1.jpg) | ![Image 6](Figures/Us1_s2.jpg) | ![Image 7](Figures/Us1_s3.png) | ![Image 8](Figures/Us3_s3.png) |
+|-------------------------------|-------------------------------|-------------------------------|-------------------------------|
 
 ## Setup Python environment
 
