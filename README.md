@@ -12,7 +12,7 @@ This code is generates synthetic data using domain randomization.
   </tr>
   <tr>
     <td><img src="Figures/rb_real.png" alt="Image 5" width="200"/></td>
-    <td><img src="Figures/Us1_s3.png" alt="Image 6" width="200"/></td>
+    <td><img src="Figures/Us1_s2.jpg" alt="Image 6" width="200"/></td>
     <td><img src="Figures/Us2_s1.jpg" alt="Image 7" width="200"/></td>
     <td><img src="Figures/Us3_s3.png" alt="Image 8" width="200"/></td>
   </tr>
