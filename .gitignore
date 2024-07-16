@@ -2,6 +2,6 @@ data/Background_Images/*
 data/PBR_Textures/*
 data/Texture_Images/*
 
-!data/Background_Images/
-!data/PBR_Textures/
-!data/Texture_Images/
+!data/Background_Images/.gitkeep
+!data/PBR_Textures/.gitkeep
+!data/Texture_Images/.gitkeep
