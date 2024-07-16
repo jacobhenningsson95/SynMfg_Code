@@ -36,8 +36,9 @@ SynMfg_Code/
 3. Put all images into `data/Texture_Images`.
 
 ### Download PBR textures
-1. Run `blenderproc download cc_textures data/PBR_Textures`. It downloads textures from cc0textures.com.
- **Note:** To use specific material textures like metal, create a new folder named `data/Metal_Textures` and place only the metal textures from the `cc_textures` data there.
+1. Run `blenderproc download cc_textures data/PBR_Textures`. It downloads textures from cc0textures.com.   
+
+ Note: To use specific material textures like metal, create a new folder named `data/Metal_Textures` and place only the metal textures from the `cc_textures` data there.
 
 
 ## Configuration file
@@ -102,7 +103,7 @@ All configurations for the generation is made in `config-sample.json`. Copy this
 | background_samples              | Include background images without objects.                                                        | TRUE                                 |
 | segmentations                   | Whether to generate segmentation mask annotations.                                                | TRUE                                 |
 | clean_paths                     | If true, start rendering anew; if false, continue from previous.                                  | TRUE                                 |
-| object_label                    | Labels of the 3D objects.                                                                         | {"0": "CouplingHalf.obj", "1": "Cross.obj", etc.} |
+| object_label                    | Labels of the 3D objects.                                                                         | {"0": "CouplingHalf.obj", "1": "Cross.obj", etc.} |  
 
 ## Running the pipeline
 
