@@ -52,7 +52,7 @@ All configurations for the generation is made in `config-sample.json`. Copy this
 
 | Parameter                       | Description                                                                                       | Value                                |
 |---------------------------------|---------------------------------------------------------------------------------------------------|--------------------------------------|
-| **Background**                  |                                                                                                   |                                      |
+| **Background**                                                                                                                                                             |
 | background_texture_type         | Random images from the BG-20L dataset.                                                            | 0                                    |
 | total_distracting_objects       | Maximum number of distractors in the scene.                                                       | 10                                   |
 | **Object**                      |                                                                                                   |                                      |
