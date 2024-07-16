@@ -107,19 +107,20 @@ Run `python generation_main.py --config config-sample.json` to start the generat
 
 ## Training Yolov8 model  
 
-After generating synthetic data, 
+After generating synthetic data, train the YOLOv8 model by following the instructions on the official Ultralytics GitHub repository ([YOLOv8 GitHub](https://github.com/ultralytics/ultralytics)) and evaluate its performance on real images.
+
 
 ## Acknowledgement
 The robotic dataset is from Horváth et al., including their .obj files and real images accessed from their [GitLab repository](https://git.sztaki.hu/emi/sim2real-object-detection/-/tree/master). Thanks for their great work!
 
-We also thank previous works in domain randomization for industrial applications, including:
-- [Tobin et al.](https://ieeexplore.ieee.org/document/8202133)
-- [Eversberg and Lambrecht](https://www.mdpi.com/1424-8220/21/23/7901)
-- [Horváth et al.](https://ieeexplore.ieee.org/document/9916581)
+We also thank previous works in domain randomization for industrial applications, including Tobin et al. ([link](https://ieeexplore.ieee.org/document/8202133)), Eversberg and Lambrecht ([link](https://www.mdpi.com/1424-8220/21/23/7901)), and Horváth et al. ([link](https://ieeexplore.ieee.org/document/9916581)).
 
-<!-- Citation section -->
+We acknowledge the contributions of the YOLOv8 model from Ultralytics, which we used for training our model.
+
+<!--
 ## Citation 
 If you find our work helpful for your research, please consider citing the following BibTeX entry.
 
 To be added.
+-->
 
