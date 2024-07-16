@@ -1,0 +1,7 @@
+data/Background_Images/*
+data/PBR_Textures/*
+data/Texture_Images/*
+
+!data/Background_Images/
+!data/PBR_Textures/
+!data/Texture_Images/
