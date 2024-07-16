@@ -113,7 +113,7 @@ After generating synthetic data, train the YOLOv8 model by following the instruc
 ## Acknowledgement
 The robotic dataset is from Horváth et al., including their .obj files and real images accessed from their [GitLab repository](https://git.sztaki.hu/emi/sim2real-object-detection/-/tree/master). Thanks for their great work!
 
-We also thank previous works in domain randomization for industrial applications, including Tobin et al. ([link](https://ieeexplore.ieee.org/document/8202133)), Eversberg and Lambrecht ([link](https://www.mdpi.com/1424-8220/21/23/7901)), and Horváth et al. ([link](https://ieeexplore.ieee.org/document/9916581)).
+We also thank previous works in domain randomization for industrial applications, including [Tobin et al.](https://ieeexplore.ieee.org/document/8202133), [Eversberg and Lambrecht](https://www.mdpi.com/1424-8220/21/23/7901), and [Horváth et al.](https://ieeexplore.ieee.org/document/9916581).
 
 We acknowledge the contributions of the YOLOv8 model from Ultralytics, which we used for training our model.
 
