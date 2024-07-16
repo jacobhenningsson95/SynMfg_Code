@@ -7,8 +7,6 @@ This code is generates synthetic data using domain randomization.
 |----------------------------|----------------------------|----------------------------|----------------------------|
 | ![Image 5](Figures/Us2_s1.jpg) | ![Image 6](Figures/Us1_s2.jpg) | ![Image 7](Figures/Us1_s3.png) | ![Image 8](Figures/Us3_s3.png) |  
 
-Figure 1: Samples of synthetic and real images
-
 
 ## Setup Python environment
 
