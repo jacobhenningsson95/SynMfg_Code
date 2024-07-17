@@ -667,8 +667,11 @@ def set_image_texture(material, img_dir, log_path=None, log_filename=None, log_v
     :param log_verbose: Print to terminal boolean.
     :return: Material with image texture applied.
     """
+
+    valid_extensions = ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp')
+
     # Start select a random image file
-    files = os.listdir(img_dir)
+    files = [file for file in os.listdir(img_dir) if file.lower().endswith(valid_extensions)]
     random_file = random.choice(files)
 
     check_random_file_exist = str(random_file)
@@ -708,9 +711,9 @@ def set_pbr_texture(material, pbr_dir, log_path=None, log_filename=None, log_ver
     :param log_verbose: Print to terminal boolean.
     :return: Material with PBR properties applied.
     """
-    folders = os.listdir(pbr_dir)
-
+    folders = [folder for folder in os.listdir(pbr_dir) if os.path.isdir(os.path.join(pbr_dir, folder))]
     random_folder = random.choice(folders)
+
     check_random_folder_exist = str(random_folder)
 
     while check_random_folder_exist in used_texture_pbr:
@@ -1895,7 +1898,8 @@ if __name__ == '__main__':
                     bsdf.inputs[7].default_value = 0.0
 
                     # Start importing image texture for backgrounds
-                    bg_files = os.listdir(config_sys_background_texture_pool)
+                    valid_extensions = ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp')
+                    bg_files = [file for file in os.listdir(config_sys_background_texture_pool) if file.lower().endswith(valid_extensions)]
                     image_file = random.choice(bg_files)
                     image_file_path = os.path.join(config_sys_background_texture_pool, image_file)
 
