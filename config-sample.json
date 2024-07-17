@@ -15,7 +15,7 @@
     },
     "user": {
         "generate_nr_samples" : 20,
-        "nr_blender_instances" : 10,
+        "nr_blender_instances" : 2,
         "render_image_width": 720,
         "render_image_height": 720,
         "render_image_format": "PNG",
