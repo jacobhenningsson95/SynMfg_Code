@@ -1,6 +1,10 @@
 # Domain Randomization for Object Detection in Manufacturing Applications using Synthetic Data: A Comprehensive Study
 
-This code generates synthetic data using domain randomization. Models trained only on those synthetic data perform well on real-world data. Below are samples of the synthetic data and their real-world counterparts.
+This code generates synthetic data from 3D models using domain randomization.   
+We use two datasets to generate synthetic images and train an object detection model, which performs well on real-world data.  
+1. **Robotic Dataset**: Published by [Horváth et al.](https://ieeexplore.ieee.org/document/9916581), which provides both 3D models and real images.
+2.  **SIP15-OD Dataset**: Developed by us. It contains 15 manufacturing object 3D models across three use cases, along with 395 real images featuring 996 annotated objects taken in various manufacturing environments.   
+Below are samples of the synthetic data and their real-world counterparts from the robotic dataset, as well as the three use cases from the SIP-15-OD dataset.  
 
 <table>
   <tr>
@@ -57,7 +61,8 @@ SynMfg_Code/
 
 ## 3D model preparation
 
-This repository contains .obj files for use with this pipeline. To prepare other 3D models for use with the pipeline efficiently they should follow these criteria:
+The 3D models in .obj format of the first robotic dataset are already included in `data/Objects/Robotic`. The 3D models of the SIP15-OD datasets are coming soon.   
+To prepare other 3D models for use with the pipeline efficiently they should follow these criteria:
 
 1. .obj format. The pipeline **ONLY** handles .obj files.
 2. The different 3d models should be scaled proportionally to eachother and the models needs to be centered in world space.
@@ -66,12 +71,12 @@ To mitigate this Blender's `Merge vertices` function can be used to remove overl
 
 ## Configuration file
 
-All configurations for the generation is made in `config-sample.json`. Copy this sample config file to make changes. 
+Our data generation pipeline considers five components of DR: object characteristics, background, illumination, camera settings, and post-processing. The range of random settings for these components is defined in the config-sample.json file. To customize these settings, copy the sample configuration file and make the necessary changes. Once the desired parameters are set, the pipeline generates synthetic data accordingly. The parameters specified in the configuration file for the five DR components and rendering are detailed in the table below:  
 
 | Parameter                       | Description                                                                                       | Value                                |
 |---------------------------------|---------------------------------------------------------------------------------------------------|--------------------------------------|
 | **Background**                                                                                                                                                             |
-| background_texture_type         | Random images from the BG-20L dataset.                                                            | 0                                    |
+| background_texture_type         | Type of texture: 1: no texture; 2: Random images from the BG-20L dataset.                         | 2                                    |
 | total_distracting_objects       | Maximum number of distractors in the scene.                                                       | 10                                   |
 | **Object**                      |                                                                                                   |                                      |
 | max_objects                     | Maximum number of objects; Set to -1 includes all objects and empty background images.            | -1                                   |
@@ -118,7 +123,7 @@ All configurations for the generation is made in `config-sample.json`. Copy this
 | image_gaussian_blur_sigma_min   | Min sigma value for Gaussian blur.                                                                | 1                                    |
 | image_gaussian_blur_sigma_max   | Max sigma value for Gaussian blur.                                                                | 3                                    |
 | **Rendering**                   |                                                                                                   |                                      |
-| generate_nr_samples             | Total number of synthetic images to generate.                                                     | 5000                                 |
+| generate_nr_samples             | Total number of synthetic images to generate.                                                     | 4000                                 |
 | nr_blender_instances            | Number of blender instances to run.                                                               | 10                                   |
 | render_image_width              | Width of the rendered image.                                                                      | 720                                  |
 | render_image_height             | Height of the rendered image.                                                                     | 720                                  |
@@ -126,7 +131,9 @@ All configurations for the generation is made in `config-sample.json`. Copy this
 | background_samples              | Include background images without objects.                                                        | TRUE                                 |
 | segmentations                   | Whether to generate segmentation mask annotations.                                                | TRUE                                 |
 | clean_paths                     | If true, start rendering anew; if false, continue from previous.                                  | TRUE                                 |
-| object_label                    | Labels of the 3D objects.                                                                         | {"0": "CouplingHalf.obj", "1": "Cross.obj", etc.} |  
+| object_label                    | Labels of the 3D objects.                                                                         | {"0": "L-bracket.obj", "1": "U-bracket.obj", etc.} |  
+
+Unless otherwise specified, the ranges are as follows: angles (0 to 360 degrees), ratios (0 to 1), colors (0 to 255), and other numbers (0 to unlimited).  
 
 ## Running the pipeline
 
