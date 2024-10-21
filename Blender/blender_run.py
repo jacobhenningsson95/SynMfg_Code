@@ -115,6 +115,11 @@ def load_distractors(pass_object_index, max_size=1.0, max_count=5, distractor_ty
             bpy.context.selected_objects[0].pass_index = index_ob
             index_ob += 1
 
+        collection_name = "collection_" + str(idx_distractor + 1) + "_" + distractor_name + "_distractor"
+
+        bpy.ops.object.move_to_collection(collection_index=0, is_new=True,
+                                          new_collection_name=collection_name)
+
     return None
 
 
@@ -174,14 +179,36 @@ def get_lowest_vertex_by_object(object):
     return lowest_vertex
 
 
-def place_object(idx_object, object, placements, rot_x_min, rot_x_max, rot_y_min, rot_y_max, ub_scale, lb_scale,
+def get_collection_dimensions(collection):
+
+    x_cords = []
+    y_cords = []
+    z_cords = []
+
+    for obj in collection.all_objects:
+        x_cords.append(obj.location.x - (obj.dimensions.x / 2))
+        x_cords.append(obj.location.x + (obj.dimensions.x / 2))
+
+        y_cords.append(obj.location.y - (obj.dimensions.y / 2))
+        y_cords.append(obj.location.y + (obj.dimensions.y / 2))
+
+        z_cords.append(obj.location.z - (obj.dimensions.z / 2))
+        z_cords.append(obj.location.z + (obj.dimensions.z / 2))
+
+
+
+    total_dimensions = [abs(min(x_cords) - max(x_cords)), abs(min(y_cords) - max(y_cords)), abs(min(z_cords) - max(z_cords))]
+
+    return total_dimensions
+
+def place_object(idx_object, obj_colletion, placements, rot_x_min, rot_x_max, rot_y_min, rot_y_max, ub_scale, lb_scale,
                  loc_x_lb=0.0,
                  loc_y_lb=0.0, ):
     """
     Places objects in the 3D scene and makes sure that they don't collied.
 
     :param idx_object: Object index in the placement process,
-    :param object: Loaded obj.
+    :param obj_colletion: Loaded obj collection.
     :param placements: Current placement information for the object
     :param rot_x_min: Min X Rotation.
     :param rot_x_max: Max X Rotation.
@@ -196,42 +223,49 @@ def place_object(idx_object, object, placements, rot_x_min, rot_x_max, rot_y_min
     :return: loc_y_lb - Updated object y loc with offset, this is used to place the next object.
     :return: placements - Updated placements list with current object new placement.
     """
-    bpy.ops.object.select_all(action='DESELECT')
-    bpy.context.view_layer.objects.active = object  # Make the cube the active object
-    object.select_set(True)
-    bpy.ops.object.origin_set(type='ORIGIN_GEOMETRY')
 
-    if object.name.startswith("distractor_"):
+    if obj_colletion.name.endswith("_distractor"):
         # Start make random rotation
         euler_x = math.radians(random.uniform(rot_x_min, rot_x_max))
         euler_y = math.radians(random.uniform(rot_y_min, rot_y_max))
 
-        object.rotation_euler[0] = euler_x
-        object.rotation_euler[1] = euler_y
+        for obj in obj_colletion.all_objects:
+            obj.rotation_euler[0] = euler_x
+            obj.rotation_euler[1] = euler_y
         # End make random rotation
 
     bpy.context.view_layer.update()
 
-    placement_key = object.name.split("_")[2]
-    if placement_key in placements:
-        lowest_vertex = placements[placement_key]
-        lowest_vertex = lowest_vertex[0]
-    else:
-        lowest_vertex = get_lowest_vertex_by_object(object)
-
-    bpy.context.scene.cursor.location = lowest_vertex
-    bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
-    object.location.z = 0.0
-    bpy.context.view_layer.update()
-
-    # Start set location
-    bpy.ops.object.origin_set(type='ORIGIN_GEOMETRY')
+    placement_key = obj_colletion.name.split("_")[2]
 
     if placement_key in placements:
         object_dim_max = placements[placement_key]
         object_dim_max = object_dim_max[1]
     else:
-        object_dim_max = max(object.dimensions)
+        object_dim_max = max(get_collection_dimensions(obj_colletion))
+
+    if placement_key in placements:
+        lowest_vertex = placements[placement_key]
+        lowest_vertex = lowest_vertex[0]
+    else:
+        collection_lowest_vertex = []
+        for obj in obj_colletion.all_objects:
+            collection_lowest_vertex.append(get_lowest_vertex_by_object(obj))
+
+        lowest_vertex = min(collection_lowest_vertex, key=lambda v: v.z)
+
+    bpy.context.scene.cursor.location = lowest_vertex
+
+    bpy.ops.object.select_all(action='DESELECT')
+
+    for obj in obj_colletion.all_objects:
+        obj.select_set(True)
+        bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
+        obj.location.z = 0.0
+        obj.select_set(False)
+
+    bpy.context.view_layer.update()
+
 
     if placement_key in placements:
 
@@ -281,17 +315,19 @@ def place_object(idx_object, object, placements, rot_x_min, rot_x_max, rot_y_min
                 object_loc_y_new = random.uniform(loc_y_lb + object_dim_max * lb_scale,
                                                   loc_y_lb + object_dim_max * ub_scale)
 
-    object.location.x = object_loc_x_new
-    object.location.y = object_loc_y_new
+    for obj in obj_colletion.all_objects:
+        obj.location.x = object_loc_x_new
+        obj.location.y = object_loc_y_new
     # End set location
 
-    loc_x_lb_new = object.location.x + object_dim_max * lb_scale
-    loc_y_lb_new = object.location.y + object_dim_max * lb_scale
+    loc_x_lb_new = object_loc_x_new + object_dim_max * lb_scale
+    loc_y_lb_new = object_loc_y_new + object_dim_max * lb_scale
 
-    if loc_x_lb < loc_x_lb_new and object.name.startswith("object_"):
+    if loc_x_lb < loc_x_lb_new and (obj_colletion.name.endswith("_object") or obj_colletion.name.endswith("_duplicate")):
+        print("loc_x_lb: ", loc_x_lb)
         loc_x_lb = loc_x_lb_new
 
-    if loc_y_lb < loc_y_lb_new and object.name.startswith("object_"):
+    if loc_y_lb < loc_y_lb_new and (obj_colletion.name.endswith("_object") or obj_colletion.name.endswith("_duplicate")):
         loc_y_lb = loc_y_lb_new
 
     bpy.context.view_layer.update()
@@ -1131,7 +1167,7 @@ def camera_view_bounds_2d(scene, camera_object, mesh_object, fast_bboxes=True):
     return [x_center, y_center, width, height]
 
 
-def make_bbox(scene, camera, object_index_dict, faster_bboxes):
+def make_bbox(scene, camera, names2labels, object_names, faster_bboxes):
     """
 
     Calculates the bounding box for each object in the scene.
@@ -1159,7 +1195,8 @@ def make_bbox(scene, camera, object_index_dict, faster_bboxes):
             print(an_obj.name)
             bbox = camera_view_bounds_2d(scene, camera, an_obj, faster_bboxes)
             if bbox is not None and 0.002 < min(bbox[-2:]):
-                bboxes.append((object_index_dict[an_obj.name], bbox))
+                object_label = object_names[names2labels[an_obj.name]]
+                bboxes.append((object_label, bbox))
                 print(str(object_index_dict[an_obj.name]) + ": " + str(bbox))
 
     return bboxes
@@ -1255,6 +1292,7 @@ if __name__ == '__main__':
     # list all models in the model path.
     files = sorted([file for file in os.listdir(models_path) if file.endswith(".obj")])
     objects_library = {}
+    names2labels = {}
 
     # Start system parameters
     config_sys_render_engine_samples_max = config_json["system"]["render_engine_samples_max"]
@@ -1345,49 +1383,41 @@ if __name__ == '__main__':
 
     render_engines = ['CYCLES', 'BLENDER_EEVEE']
 
+    object_labels = config_user_object_label
+    bbox_img_labels = {int(v): k for k, v in object_labels.items()}
+
     if config_user_max_number_objects == -1:
         number_of_objects = len(files)
     else:
         number_of_objects = config_user_max_number_objects
 
     if len(config_user_object_weights) != 0:
-        assert len(config_user_object_weights) == len(
-            files), "The amount of object weights needs to be the same as there are objects"
+
+        try:
+            assert len(config_user_object_weights) == len(files)
+        except AssertionError:
+            print("GENERATION_FAILURE: " + "The amount of object weights needs to be the same as there are objects")
+            os._exit(0)
+            bpy.ops.wm.quit_blender()
+
         object_weights = config_user_object_weights
     else:
         object_weights = None
 
     if len(config_user_nr_objects_weights) != 0:
-        assert number_of_objects + int(config_user_background_samples) == len(config_user_nr_objects_weights), \
-            ("The amount of number objects weights should be the same as the max number of objects."
+
+        try:
+            assert number_of_objects + int(config_user_background_samples) == len(config_user_nr_objects_weights)
+        except AssertionError:
+            print("GENERATION_FAILURE: " + "The amount of number objects weights should be the same as the max number of objects."
              " If background samples are used one additional weight at index 0 needs to be added to represent them")
+            os._exit(0)
+            bpy.ops.wm.quit_blender()
+
         number_of_objects_weights = config_user_nr_objects_weights
     else:
         number_of_objects_weights = None
 
-    if len(config_user_object_label) != 0:
-        assert len(files) == len(config_user_object_label), ("The number of object index needs to be the same as "
-                                                             ".obj files in the object folder")
-
-        for file in files:
-            assert file in config_user_object_label.values(), f"Each .obj file needs to have a corresponding object index {file} not found object_index "
-
-        files = [config_user_object_label[key] for key in sorted(config_user_object_label.keys())]
-        file_dict = config_user_object_label
-
-        for key, value in file_dict.items():
-            file_dict[key] = value.replace('.obj', '')
-
-        file_dict = {int(k): v for k, v in file_dict.items()}
-
-    else:
-        # Initialize an empty dictionary
-        file_dict = {}
-
-        # Iterate through the list and populate the dictionary
-        for index, file_name in enumerate(files):
-            key = file_name.replace('.obj', '')
-            file_dict[index] = key
 
     # limit the amount of CPU resources that the Blender instance can use not to overwhelm the system.
     bpy.context.scene.render.threads_mode = 'FIXED'
@@ -1409,6 +1439,7 @@ if __name__ == '__main__':
     # especially in a cluster.
     result = subprocess.run(['nvidia-smi', '-L'], stdout=subprocess.PIPE)
     gpu_info = result.stdout.decode('utf-8').strip().split('\n')
+
     nvidia_smi_gpu_names = [line.split(': ')[1].split(' (')[0] for line in gpu_info]
 
     print("nvidia_smi: ", nvidia_smi_gpu_names)
@@ -1435,6 +1466,49 @@ if __name__ == '__main__':
     if config_user_eevee_postprocessing:
         bpy.context.scene.eevee.use_bloom = True
         bpy.context.scene.eevee.use_ssr = True
+
+
+    # Import file paths and check that each object has a label.
+    for idx_model, model in enumerate(files):
+        model_path = os.path.join(models_path, model)
+        model_label = model
+
+        bpy.ops.wm.obj_import(filepath=model_path)
+        bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+        collection_name = "collection_" + model + "_object"
+        bpy.ops.object.move_to_collection(collection_index=0, is_new=True,
+                                          new_collection_name=collection_name)
+
+        objects_library[model_path] = collection_name
+
+        if config_user_objects_texture_type != -1:
+            for obj in bpy.data.collections[collection_name].all_objects:
+                obj.select_set(True)
+                bpy.ops.object.mode_set(mode='EDIT')
+                bpy.ops.mesh.select_mode(type="FACE")
+                bpy.ops.mesh.select_all(action='SELECT')
+
+                # uv unwrap objects
+                bpy.ops.uv.smart_project()
+                bpy.ops.uv.pack_islands(margin=0)
+                bpy.ops.object.mode_set(mode='OBJECT')
+
+        for idx, obj in enumerate(bpy.data.collections[collection_name].all_objects):
+            new_obj_name = "object_" + model_label + str(idx)
+            names2labels[new_obj_name] = obj.name
+
+
+            try:
+                assert obj.name in object_labels
+            except AssertionError:
+                print("GENERATION_FAILURE: " + f"Object named {obj.name} in file {model} is not in the object_labels. "
+                                               f"Re-export the object with the correct name or add it to the \"object_label\" dict in the configs file.")
+                os._exit(0)
+                bpy.ops.wm.quit_blender()
+
+            obj.name = new_obj_name
+
+
 
     # repeat render loop until there are no more files to render.
     while filenames:
@@ -1492,10 +1566,23 @@ if __name__ == '__main__':
                     existing_obj.hide_viewport = True
                     existing_obj.hide_render = True
 
+                existing_collections = [collection for collection in bpy.data.collections if collection.name.endswith("_duplicate") or collection.name.endswith("_distractor")]
+
+                for collection in existing_collections:
+                    bpy.data.collections.remove(collection)
+
+                for collection in bpy.data.collections:
+                    collection.hide_viewport = True
+                    collection.hide_render = True
+
                 # Do not remove 3d objects, but remove distractors, ground, and walls.
                 remove_objects = [obj for obj in bpy.data.objects if
                                   obj.name.endswith("_duplicate") or not obj.name.startswith("object_")]
+
                 for remove_obj in remove_objects:
+                    if remove_obj.name.endswith("_duplicate"):
+                        del names2labels[remove_obj.name]
+
                     bpy.data.objects.remove(remove_obj, do_unlink=True)
 
                 for block in bpy.data.meshes:
@@ -1525,6 +1612,7 @@ if __name__ == '__main__':
                 current_pass_object_index = 1
                 object_max_size = 0.0
                 objects_placement = {}
+                collection_duplications = {}
                 collection_count = 1
 
                 # if background samples are allowed then there can be images without .obj files.
@@ -1568,57 +1656,62 @@ if __name__ == '__main__':
                         selected_objects = []
 
                         # if the object has already been loaded
-                        if model_path in objects_library:
-                            selected_objects_names = objects_library[model_path]
+                        collection_name = objects_library[model_path]
 
-                            for obj_names in selected_objects_names:
+                        if bpy.data.collections[collection_name].hide_viewport == False:
+                            # if the object is already in the current scene duplicate it.
+                                print("Duplicating collection: " + collection_name)
 
-                                # if the object is already in the current scene duplicate it.
-                                if bpy.data.objects[obj_names].hide_viewport == False:
-                                    print("Duplicating object: " + obj_names)
-                                    obj = bpy.data.objects[obj_names]
+                                collection_duplications[collection_name] = collection_duplications.get(collection_name, 0) + 1
+
+                                duplicate_collection_name = collection_name + "_" + str(collection_duplications[collection_name]) + "_duplicate"
+
+                                for obj in bpy.data.collections[collection_name].all_objects:
                                     original_name = obj.name
+                                    duplicate_name = f"{original_name}_{str(collection_duplications[collection_name])}_duplicate"
+
+                                    obj_label = names2labels[original_name]
+                                    names2labels[duplicate_name] = obj_label
+
                                     duplicate = obj.copy()
                                     duplicate.data = obj.data.copy()
-                                    duplicate.name = f"{original_name}_duplicate"
+                                    duplicate.name = duplicate_name
                                     bpy.context.collection.objects.link(duplicate)
                                     for slot in duplicate.material_slots:
                                         # Make a copy of the material
                                         new_material = slot.material.copy()
                                         # Assign the copied material to the slot
                                         slot.material = new_material
+
                                     selected_objects.append(bpy.data.objects[duplicate.name])
-                                else:
-                                    selected_objects.append(bpy.data.objects[obj_names])
 
-                                    bpy.data.objects[obj_names].hide_viewport = False
-                                    bpy.data.objects[obj_names].hide_render = False
+                                bpy.ops.object.select_all(action='DESELECT')
 
-                                # Start write to log file
-                                log_message = "Use existing object: " + obj_names
+                                for selected_object in selected_objects:
+                                    selected_object.select_set(True)
+
+                                bpy.ops.object.move_to_collection(collection_index=0, is_new=True,
+                                                          new_collection_name=duplicate_collection_name)
+
+                                collection_name = duplicate_collection_name
+
+                        else:
+
+                            print("Using collection: ", str(bpy.data.collections[collection_name]))
+
+                            bpy.data.collections[collection_name].hide_viewport = False
+                            bpy.data.collections[collection_name].hide_render = False
+
+                            for obj in bpy.data.collections[collection_name].all_objects:
+                                print("Unhidding obj: ", obj.name)
+                                selected_objects.append(obj)
+                                obj.hide_viewport = False
+                                obj.hide_render = False
+
+                            # Start write to log file
+                                log_message = "Use existing Collection: " + collection_name
                                 print_to_log(config_sys_render_log_path, config_sys_render_log_filename, log_message,
                                              config_sys_render_log_verbose)
-                                # End write to log file
-                        else:
-                            # import objects
-                            bpy.ops.wm.obj_import(filepath=model_path)
-                            bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
-
-                            if config_user_objects_texture_type != -1:
-                                bpy.ops.object.mode_set(mode='EDIT')
-                                bpy.ops.mesh.select_mode(type="FACE")
-                                bpy.ops.mesh.select_all(action='SELECT')
-
-                                # uv unwrap objects
-                                bpy.ops.uv.smart_project()
-                                bpy.ops.uv.pack_islands(margin=0)
-                                bpy.ops.object.mode_set(mode='OBJECT')
-
-                            selected_objects = bpy.context.selected_objects
-                            # Start write to log file
-                            log_message = "Imported object: " + model_path
-                            print_to_log(config_sys_render_log_path, config_sys_render_log_filename, log_message,
-                                         config_sys_render_log_verbose)
                             # End write to log file
 
                         # random rotation for object.
@@ -1630,40 +1723,22 @@ if __name__ == '__main__':
                         object_lowest_vertex = mathutils.Vector((10.0, 10.0, 10.0))
                         collection_max_size = 0.0
 
-                        print("Selected_objects: " + str(selected_objects))
+                        print("Selected_objects: " + str(bpy.data.collections[collection_name].all_objects))
                         print("objects_library: " + str(objects_library))
 
-                        collection_names = []
-                        for idx, collection_object in enumerate(selected_objects):
-                            # name duplicates to identify them.
-                            if model_path in objects_library:
-                                if "_duplicate" in collection_object.name:
-                                    collection_object.name = "object_" + collection_object.name.split("_")[
-                                        1] + "_collect" + str(collection_count) + "_duplicate"
-                                else:
-                                    collection_object.name = "object_" + collection_object.name.split("_")[
-                                        1] + "_collect" + str(collection_count)
-                            else:
-                                if model_label == "":
-                                    collection_object.name = "object_" + collection_object.name.split('.')[
-                                        0] + "_collect" + str(
-                                        collection_count)
-                                else:
-                                    collection_object.name = "object_" + model_label + "_collect" + str(
-                                        collection_count)
+                        for idx, selected_object in enumerate(bpy.data.collections[collection_name].all_objects):
 
-                            collection_names.append(collection_object.name)
                             # Start write to log file
-                            log_message = "Set object name: " + collection_object.name
+                            log_message = "Set object name: " + selected_object.name
 
-                            object_index_dict[collection_object.name] = files.index(model)
+                            object_index_dict[selected_object.name] = files.index(model)
 
                             print_to_log(config_sys_render_log_path, config_sys_render_log_filename, log_message,
                                          config_sys_render_log_verbose)
                             # End write to log file
 
-                            collection_object.rotation_euler[0] = euler_x
-                            collection_object.rotation_euler[1] = euler_y
+                            selected_object.rotation_euler[0] = euler_x
+                            selected_object.rotation_euler[1] = euler_y
 
                             # Start write to log file
                             log_message = "Set object rotation x: " + str(math.degrees(euler_x)) + ", y: " + str(
@@ -1674,15 +1749,15 @@ if __name__ == '__main__':
 
                             bpy.context.view_layer.update()
 
-                            obj_vertex = get_lowest_vertex_by_object(collection_object)
+                            obj_vertex = get_lowest_vertex_by_object(selected_object)
 
                             if obj_vertex.z < object_lowest_vertex.z:
                                 object_lowest_vertex = obj_vertex
 
-                            collection_object.pass_index = current_pass_object_index
+                            selected_object.pass_index = current_pass_object_index
                             current_pass_object_index += 1
 
-                            object_size = max(collection_object.dimensions)
+                            object_size = max(selected_object.dimensions)
 
                             if object_size > object_max_size:
                                 object_max_size = object_size
@@ -1695,8 +1770,6 @@ if __name__ == '__main__':
 
                         collection_count += 1
 
-                        if not collection_object.name.endswith("_duplicate"):
-                            objects_library[model_path] = collection_names
                 else:
                     object_max_size = 0.2
 
@@ -1711,20 +1784,20 @@ if __name__ == '__main__':
 
                 loc_x_lb_update, loc_y_lb_update = 0.1, 0.1
 
-                objects = [obj for obj in bpy.data.objects if obj.type == 'MESH' and obj.name.startswith(
-                    "object_") and not obj.hide_viewport and not obj.hide_render]
-                random.shuffle(objects)
+                object_collections = [coll for coll in bpy.data.collections if (coll.name.endswith(
+                    "_object") or coll.name.endswith("_duplicate")) and not coll.hide_viewport and not coll.hide_render]
 
-                distractors = [obj for obj in bpy.data.objects if
-                               obj.type == 'MESH' and obj.name.startswith("distractor_")]
-                random.shuffle(distractors)
+                random.shuffle(object_collections)
 
-                distractors_midpoint = len(distractors) // 2
+                distractor_colletions = [coll for coll in bpy.data.collections if coll.name.endswith("_distractor")]
+                random.shuffle(distractor_colletions)
 
-                mesh_objs = distractors[0:distractors_midpoint] + objects + distractors[distractors_midpoint:]
+                distractors_midpoint = len(distractor_colletions) // 2
 
-                for idx_obj, an_obj in enumerate(mesh_objs):
-                    loc_x_lb_update, loc_y_lb_update, objects_placement = place_object(idx_obj, an_obj,
+                mesh_collections = distractor_colletions[0:distractors_midpoint] + object_collections + distractor_colletions[distractors_midpoint:]
+
+                for idx_obj, an_collection in enumerate(mesh_collections):
+                    loc_x_lb_update, loc_y_lb_update, objects_placement = place_object(idx_obj, an_collection,
                                                                                        objects_placement,
                                                                                        config_user_object_rotation_x_min,
                                                                                        config_user_object_rotation_x_max,
@@ -1736,12 +1809,13 @@ if __name__ == '__main__':
                                                                                        loc_y_lb_update)
 
                     # Start write to log file
-                    log_message = "Set object texture for: " + str(an_obj.name)
+                    log_message = "Set object texture for: " + str(an_collection.name)
                     print_to_log(config_sys_render_log_path, config_sys_render_log_filename, log_message,
                                  config_sys_render_log_verbose)
                     # End write to log file
 
-                    an_obj = set_object_texture(an_obj, texture_type=config_user_objects_texture_type,
+                    for an_obj in an_collection.all_objects:
+                        an_obj = set_object_texture(an_obj, texture_type=config_user_objects_texture_type,
                                                 img_dir=config_sys_image_texture_pool,
                                                 pbr_dir=config_sys_pbr_texture_pool,
                                                 log_path=config_sys_render_log_path,
@@ -2031,7 +2105,7 @@ if __name__ == '__main__':
 
                 bb_time = time.time()
                 #
-                object_bboxes = make_bbox(scene, camera, object_index_dict, config_user_faster_bboxes)
+                object_bboxes = make_bbox(scene, camera, names2labels, object_labels, config_user_faster_bboxes)
 
                 print(object_bboxes)
 
@@ -2070,7 +2144,7 @@ if __name__ == '__main__':
                     bbox_path = os.path.join(config_sys_render_label_path, config_sys_render_label_filename)
                     bbox_img_path = os.path.join(config_sys_render_bbox_path, config_sys_render_bbox_filename)
 
-                    save_bbox_image(img_path, bbox_path, bbox_img_path, file_dict)
+                    save_bbox_image(img_path, bbox_path, bbox_img_path, bbox_img_labels)
 
                 if config_enable_blender_save:
                     bpy.ops.wm.save_as_mainfile(

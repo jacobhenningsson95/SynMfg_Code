@@ -75,6 +75,6 @@
         "bbox_imgs": true,
         "faster_bboxes": true,
         "background_samples": true,
-        "object_label": {"0": "L-bracket.obj", "1": "U-bracket.obj", "2": "angle_bracket.obj", "3": "seat.obj", "4":"pipe_clamp.obj", "5":"handle.obj", "6":"bonnet.obj", "7":"body.obj", "8":"ball.obj", "9":"cable_shoe.obj"}
+        "object_label": {"L-Bracket": "0", "U-Bracket": "1", "Angle_Bracket": "2", "Seat": "3", "Pipe_Clamp":"4", "Handle":"5", "Bonnet":"6", "Body":"7", "Ball":"8", "Cable_Shoe":"9"}
     }
 }
