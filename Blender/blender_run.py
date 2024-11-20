@@ -11,6 +11,7 @@ import numpy as np
 import subprocess
 import os
 import cv2
+import re
 
 def print_to_log(path, filename, message, verbose=False):
     """
@@ -1435,7 +1436,7 @@ if __name__ == '__main__':
 
     available_gpus_names = [gpu.name for gpu in available_gpus]
 
-    # check which GPUs are avaiable through nvidia-smi, sometime Blender manages to get access to GPUs that it shouldn't,
+    # check which GPUs are available through nvidia-smi, sometime Blender manages to get access to GPUs that it shouldn't,
     # especially in a cluster.
     result = subprocess.run(['nvidia-smi', '-L'], stdout=subprocess.PIPE)
     gpu_info = result.stdout.decode('utf-8').strip().split('\n')
@@ -1495,17 +1496,21 @@ if __name__ == '__main__':
 
         for idx, obj in enumerate(bpy.data.collections[collection_name].all_objects):
             new_obj_name = "object_" + model_label + str(idx)
-            names2labels[new_obj_name] = obj.name
+            obj_name = re.sub(r'\.\d{3}$', '', obj.name)
+            names2labels[new_obj_name] = obj_name
 
 
             try:
-                assert obj.name in object_labels
+                assert obj_name in object_labels
             except AssertionError:
-                print("GENERATION_FAILURE: " + f"Object named {obj.name} in file {model} is not in the object_labels. "
+                print("GENERATION_FAILURE: " + f"Object named {obj_name} in file {model} is not in the object_labels. "
                                                f"Re-export the object with the correct name or add it to the \"object_label\" dict in the configs file.")
                 os._exit(0)
                 bpy.ops.wm.quit_blender()
 
+            new_material = bpy.data.materials.new(name=new_obj_name + "_material")
+            new_material.use_nodes = True
+            obj.data.materials[0] = new_material
             obj.name = new_obj_name
 
 
@@ -1563,8 +1568,6 @@ if __name__ == '__main__':
                     for exist_material in existing_obj.data.materials:
                         updated_material = delete_shader_nodes(exist_material)
 
-                    existing_obj.hide_viewport = True
-                    existing_obj.hide_render = True
 
                 existing_collections = [collection for collection in bpy.data.collections if collection.name.endswith("_duplicate") or collection.name.endswith("_distractor")]
 
@@ -1645,7 +1648,6 @@ if __name__ == '__main__':
                                     np.random.choice(obj_index, 1, p=config_user_object_pair_matrix[first_obj_index])[0]
                                 obj_files.append(files[second_obj_index])
 
-                print("Starting model import")
 
                 if len(obj_files) != 0:
                     for idx_model, model in enumerate(obj_files):
@@ -1697,16 +1699,12 @@ if __name__ == '__main__':
 
                         else:
 
-                            print("Using collection: ", str(bpy.data.collections[collection_name]))
 
                             bpy.data.collections[collection_name].hide_viewport = False
                             bpy.data.collections[collection_name].hide_render = False
 
                             for obj in bpy.data.collections[collection_name].all_objects:
-                                print("Unhidding obj: ", obj.name)
                                 selected_objects.append(obj)
-                                obj.hide_viewport = False
-                                obj.hide_render = False
 
                             # Start write to log file
                                 log_message = "Use existing Collection: " + collection_name

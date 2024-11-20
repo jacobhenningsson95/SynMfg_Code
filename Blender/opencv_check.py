@@ -14,12 +14,6 @@ except ImportError:
     try:
         subprocess.check_call([python_exe, "-m", "pip", "install", "opencv-python"])
         print("Successfully installed OpenCV. Please restart Blender.")
-        try:
-            import cv2
-
-            print(f"Successfully imported OpenCV Version: {cv2.__version__} after installation.")
-        except ImportError:
-            print("Failed to import cv2 after installation. Please restart Blender and try again.")
 
     except subprocess.CalledProcessError as e:
         print(f"Failed to install OpenCV: {str(e)}")
