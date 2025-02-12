@@ -154,7 +154,6 @@ We acknowledge the contributions of the YOLOv8 model from Ultralytics, which we 
 
 ## Citation 
 If you find our work helpful for your research, please consider citing the following BibTeX entry.
-(Paper 
 ```
 @inproceedings{Zhu2025,
   author    = {Zhu, Xiaomeng and Henningsson, Jacob and Li, Duruo and M{\aa}rtensson, P{\aa}r and Hanson, Lars and Bj{\"o}rkman, M{\aa}rten and Maki, Atsuto},
