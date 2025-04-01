@@ -128,6 +128,10 @@ Our data generation pipeline considers five components of DR: object characteris
 | nr_blender_instances            | Number of blender instances to run.                                                               | 10                                   |
 | render_image_width              | Width of the rendered image.                                                                      | 720                                  |
 | render_image_height             | Height of the rendered image.                                                                     | 720                                  |
+| render_engine_samples_max       | Maximum number of render engine samples                                                           | 32                                         |
+| render_image_format             | Format of the rendered image                                                                      | PNG                                        |
+| render_engine                   | Render engine to use for generating images, (-1: Random engine, 0: Cycles, 1: EEVEE)              | 0                                         |
+| eevee_postprocessing            | Enable postprocessing for the Eevee engine                                                        | FALSE                                       |
 | render_image_format             | Format of the rendered image (PNG or JPEG).                                                       | PNG                                  |
 | background_samples              | Include background images without objects.                                                        | TRUE                                 |
 | segmentations                   | Whether to generate segmentation mask annotations.                                                | TRUE                                 |
