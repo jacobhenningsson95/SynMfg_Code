@@ -136,7 +136,7 @@ Our data generation pipeline considers five components of DR: object characteris
 | background_samples              | Include background images without objects.                                                        | TRUE                                 |
 | segmentations                   | Whether to generate segmentation mask annotations.                                                | TRUE                                 |
 | clean_paths                     | If true, start rendering anew; if false, continue from previous.                                  | TRUE                                 |
-| object_label                    | Labels of the 3D objects.                                                                         | {"0": "L-bracket.obj", "1": "U-bracket.obj", etc.} |  
+| object_label                    | Labels of the 3D objects.                                                                         | {"L-bracket.obj": "0", "U-bracket.obj": "1", etc.} |  
 
 Unless otherwise specified, the ranges are as follows: angles (0 to 360 degrees), ratios (0 to 1), colors (0 to 255), and other numbers (0 to unlimited).  
 
