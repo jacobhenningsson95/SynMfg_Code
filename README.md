@@ -62,13 +62,7 @@ SynMfg_Code/
 
 ## 3D model preparation
 
-The 3D models in .obj format of the first robotic dataset are already included in `data/Objects/Robotic`. The 3D models of the SIP15-OD datasets are coming soon.   
-To prepare other 3D models for use with the pipeline efficiently they should follow these criteria:
-
-1. .obj format. The pipeline **ONLY** handles .obj files.
-2. The different 3d models should be scaled proportionally to eachother and the models needs to be centered in world space.
-3. No overlapping vertices. If a model contains overlapping vertices parts of the pipeline will run inefficiently and automatic texture mapping will be less successful.
-To mitigate this Blender's `Merge vertices` function can be used to remove overlapping vertices. 
+The preparation of 3D models used in the pipeline can be read about in the [objects section](data/Objects/README.md).
 
 ## Configuration file
 
