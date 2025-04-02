@@ -45,7 +45,7 @@ SynMfg_Code/
     ├── Objects/
     ├── PBR_Textures/
     └── Texture_Images/
-```
+``` 
 ### Download background images
 1. Go to [Google Drive](https://drive.google.com/drive/folders/1ZBaMJxZtUNHIuGj8D8v3B9Adn8dbHwSS).
 2. Download all image files from **train** and **testval** folders. 
@@ -62,20 +62,14 @@ SynMfg_Code/
 
 ## 3D model preparation
 
-The 3D models in .obj format of the first robotic dataset are already included in `data/Objects/Robotic`. The 3D models of the SIP15-OD datasets are coming soon.   
-To prepare other 3D models for use with the pipeline efficiently they should follow these criteria:
-
-1. .obj format. The pipeline **ONLY** handles .obj files.
-2. The different 3d models should be scaled proportionally to eachother and the models needs to be centered in world space.
-3. No overlapping vertices. If a model contains overlapping vertices parts of the pipeline will run inefficiently and automatic texture mapping will be less successful.
-To mitigate this Blender's `Merge vertices` function can be used to remove overlapping vertices. 
+The preparation of 3D models used in the pipeline can be read about in the [objects section](data/Objects/README.md).
 
 ## Configuration file
 
 Our data generation pipeline considers five components of DR: object characteristics, background, illumination, camera settings, and post-processing. The range of random settings for these components is defined in the config-sample.json file. To customize these settings, copy the sample configuration file and make the necessary changes. Once the desired parameters are set, the pipeline generates synthetic data accordingly. The parameters specified in the configuration file for the five DR components and rendering are detailed in the table below:  
 
-| Parameter                       | Description                                                                                       | Value                                |
-|---------------------------------|---------------------------------------------------------------------------------------------------|--------------------------------------|
+| Parameter                       | Description                                                                            | Default value                                      |
+|---------------------------------|----------------------------------------------------------------------------------------|----------------------------------------------------|
 | **Background**                                                                                                                                                             |
 | background_texture_type         | Type of texture: 1: no texture; 2: Random images from the BG-20L dataset.                         | 2                                    |
 | total_distracting_objects       | Maximum number of distractors in the scene.                                                       | 10                                   |

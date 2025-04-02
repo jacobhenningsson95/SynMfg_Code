@@ -64,7 +64,11 @@ def run_command(command, progress_queue, verbose):
 
                 if "PROGRESS" in line:
                     progress_queue.put(1)
-                elif "GENERATION_SUCCESSFUL" in line:
+                elif  ("GENERATION_SUCCESSFUL" in line) or ("GENERATION_FAILURE" in line):
+
+                    if "GENERATION_FAILURE" in line:
+                        print(line)
+
                     complete = True
                     break
                 elif "FILENAME" in line:
