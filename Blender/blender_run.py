@@ -1427,42 +1427,44 @@ if __name__ == '__main__':
     # enable GPU computing
     bpy.context.preferences.addons['cycles'].preferences.compute_device_type = 'CUDA'
     bpy.data.scenes["Scene"].cycles.device = "GPU"
-    # select the GPU to be used for rendering
-    bpy.context.preferences.addons["cycles"].preferences.get_devices()
-    print(bpy.context.preferences.addons["cycles"].preferences.compute_device_type)
 
-    available_gpus = [gpu for gpu in bpy.context.preferences.addons['cycles'].preferences.devices if
-                      gpu.type == 'CUDA']
+    bus_ids = []
+    try:
+        # Query nvidia-smi for bus IDs
+        nvidia_smi_output = subprocess.check_output(
+            ["nvidia-smi", "--query-gpu=pci.bus_id", "--format=csv,noheader"],
+            text=True
+        )
+        bus_ids = [line.strip().split('.')[0].lower()[4:] for line in nvidia_smi_output.splitlines()]
+    except Exception as e:
+        print(f"Error fetching nvidia-smi bus IDs: {e}")
 
-    available_gpus_names = [gpu.name for gpu in available_gpus]
 
-    # check which GPUs are available through nvidia-smi, sometime Blender manages to get access to GPUs that it shouldn't,
-    # especially in a cluster.
-    result = subprocess.run(['nvidia-smi', '-L'], stdout=subprocess.PIPE)
-    gpu_info = result.stdout.decode('utf-8').strip().split('\n')
+    # Get bus IDs from nvidia-smi
+    print("Visible Bus IDs from nvidia-smi:", bus_ids)
 
-    nvidia_smi_gpu_names = [line.split(': ')[1].split(' (')[0] for line in gpu_info]
+    if config_gpu_ordinal != -1:
+        bus_ids = [bus_ids[config_gpu_ordinal]]
 
-    print("nvidia_smi: ", nvidia_smi_gpu_names)
+    # Refresh Cycles device list
+    prefs = bpy.context.preferences.addons["cycles"].preferences
+    prefs.get_devices()
 
-    filtered_gpus = [available_gpus.pop(available_gpus_names.index(gpu)) for gpu in nvidia_smi_gpu_names if gpu in available_gpus_names]
+    for device in prefs.devices:
+        device["use"] = 0
+        print(device["name"], device["use"])
 
-    for i, gpu in enumerate(filtered_gpus):
-        print(str(i) + ": " + str(gpu))
-
-    for d in bpy.context.preferences.addons["cycles"].preferences.devices:
-        d["use"] = 0
-        print(d["name"], d["use"])
-
-    # use all available gpus.
-    if config_gpu_ordinal == -1:
-        for d in filtered_gpus:
-            d["use"] = 1
-            print(d["name"], d["use"])
-    else:
-        d = filtered_gpus[config_gpu_ordinal]
-        d["use"] = 1
-        print(d["name"], d["use"])
+    # Filter devices in Generation based on Bus ID
+    for device in prefs.devices:
+        # Parse Bus ID from device["id"] string
+        if device.type == "CUDA":
+            bus_id = device["id"].split("_")[-1]  # Extract "0000:4e:00"
+            print("bus Id: ", bus_id)
+            if bus_id in bus_ids:
+                print(f"Enabled GPU: {device.name} with Bus ID {bus_id}")
+                device["use"] = 1
+            else:
+                print(f"Disabled GPU: {device.name} with Bus ID {bus_id}")
 
     if config_user_eevee_postprocessing:
         bpy.context.scene.eevee.use_bloom = True
