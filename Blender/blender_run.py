@@ -1512,7 +1512,10 @@ if __name__ == '__main__':
 
             new_material = bpy.data.materials.new(name=new_obj_name + "_material")
             new_material.use_nodes = True
-            obj.data.materials[0] = new_material
+            if len(obj.data.materials) == 0:
+                obj.data.materials.append(new_material)
+            else:
+                obj.data.materials[0] = new_material
             obj.name = new_obj_name
 
 
