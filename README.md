@@ -168,7 +168,7 @@ If you find our work helpful for your research, please consider citing the follo
   title     = {Domain Randomization for Object Detection in Manufacturing Applications using Synthetic Data: A Comprehensive Study},
   booktitle = {Proceedings of the IEEE International Conference on Robotics and Automation (ICRA)},
   year      = {2025},
-  note      = {Accepted for publication. To appear. }
+  note      = {Accepted for publication. To appear.}
 }
 ```
 
