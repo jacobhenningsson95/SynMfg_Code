@@ -2,7 +2,7 @@
 
 # Domain Randomization for Object Detection in Manufacturing Applications using Synthetic Data: A Comprehensive Study
 
-**This repo contains the source code and dataset for our ICRA 2025 paper (accepted, waiting for publishing). The full paper of this work can be found view [here](Paper/icra2025_cameraready.pdf).**  
+**This repo contains the source code and dataset for our ICRA 2025 paper (accepted, waiting for publishing). The full paper can be found view [here](Paper/icra2025_cameraready.pdf).**  
   
 This code generates synthetic data from 3D models using domain randomization. We use two datasets to generate synthetic images and train an object detection model, which performs well on real-world data.  
 1. **Robotic Dataset**: Published by [Horváth et al.](https://ieeexplore.ieee.org/document/9916581), which provides both 3D models and real images.
