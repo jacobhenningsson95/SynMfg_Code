@@ -1,3 +1,5 @@
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
 # Domain Randomization for Object Detection in Manufacturing Applications using Synthetic Data: A Comprehensive Study
 
 **This repo contains the source code and dataset for our ICRA 2025 paper (accepted, waiting for publishing). The full paper of this work can be found view [here](Paper/icra2025_paper1_pipeline.pdf).**  
@@ -141,6 +143,14 @@ Run `python generation_main.py --config config-sample.json` to start the generat
 ## Training Yolov8 model  
 
 After generating synthetic data, train the YOLOv8 model by following the instructions on the official Ultralytics GitHub repository ([YOLOv8 GitHub](https://github.com/ultralytics/ultralytics)) and evaluate its performance on real images.
+
+
+## License
+
+This repository is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
+
+You are free to share and adapt the material, but only for non-commercial purposes, and with appropriate credit.
+
 
 
 ## Acknowledgement
