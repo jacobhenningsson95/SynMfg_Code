@@ -1,6 +1,6 @@
-[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
-
 # Domain Randomization for Object Detection in Manufacturing Applications using Synthetic Data: A Comprehensive Study
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 **This repo contains the source code and dataset for our ICRA 2025 paper (accepted, waiting for publishing). The full paper can be found [here](Paper/icra2025_cameraready.pdf).**  
   
@@ -147,9 +147,7 @@ After generating synthetic data, train the YOLOv8 model by following the instruc
 
 ## License
 
-This repository is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
-
-You are free to share and adapt the material, but only for non-commercial purposes, and with appropriate credit.
+This project is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) — see the [LICENSE](./LICENSE) file for details.
 
 
 
