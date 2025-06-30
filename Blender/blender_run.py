@@ -344,14 +344,21 @@ def camera_look_at(camera_obj, target_point):
     :param target_point: Coordinates to point the camera.
     """
     loc_camera = camera_obj.matrix_world.to_translation()
-
     direction = target_point - loc_camera
+
     # point the cameras '-Z' and use its 'Y' as up
     rot_quat = direction.to_track_quat('-Z', 'Y')
+    roll_offset = math.radians(-90)
+    roll_quat = mathutils.Quaternion((0, 0, 1), roll_offset)
 
-    # assume we're using euler rotation
-    camera_obj.rotation_euler = rot_quat.to_euler()
+    final_quat = rot_quat @ roll_quat
 
+    camera_obj.rotation_mode = 'QUATERNION'
+    camera_obj.rotation_quaternion = final_quat
+
+    print("Target point: ", target_point)
+    print("Camera location: ", loc_camera)
+    print("Camera direction: ", direction)
 
 def spherical_to_cartesian(r, theta, phi):
     """
@@ -362,9 +369,10 @@ def spherical_to_cartesian(r, theta, phi):
     :param phi: azimuthal angle.
     :return: Converted cartesian coordinates.
     """
-    x = r * math.sin(phi) * math.cos(theta)
-    y = r * math.sin(phi) * math.sin(theta)
-    z = r * math.cos(phi)
+    safe_phi = max(phi, 1e-2)
+    x = r * math.sin(safe_phi) * math.cos(theta)
+    y = r * math.sin(safe_phi) * math.sin(theta)
+    z = r * math.cos(safe_phi)
     return x, y, z
 
 
@@ -1873,6 +1881,8 @@ if __name__ == '__main__':
                 theta = math.radians(random.uniform(config_user_camera_theta_min, config_user_camera_theta_max))
                 phi = math.radians(random.uniform(config_user_camera_phi_min, config_user_camera_phi_max))
                 x, y, z = spherical_to_cartesian(r, theta, phi)
+
+                print("x: {}, y: {}, z: {}, r: {}".format(x, y, z, r))
 
                 # Start write to log file
                 log_message = "Set camera: r=" + str(r) + " phi=" + str(math.degrees(phi)) + " theta=" + str(
