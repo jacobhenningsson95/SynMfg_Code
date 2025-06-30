@@ -51,7 +51,7 @@ def load_distractors(pass_object_index, max_size=1.0, max_count=5, distractor_ty
     :param distractor_type: Specifying the distractor shape type, if 0 random shapes will be selected.
     :param distractor_segmentations: Add properties used for the segmentation mask or not.
     :param uniform_distractor_scale: Use uniform scaling or not. Non-uniform scaling leads to shape distortions.
-    :return: None
+    :return: Current object pass index
     """
     index_ob = pass_object_index
 
@@ -121,7 +121,7 @@ def load_distractors(pass_object_index, max_size=1.0, max_count=5, distractor_ty
         bpy.ops.object.move_to_collection(collection_index=0, is_new=True,
                                           new_collection_name=collection_name)
 
-    return None
+    return index_ob
 
 
 def lift_distractors(distractors, location_z_unit, limit_min, limit_max):
@@ -186,7 +186,7 @@ def get_collection_dimensions(collection):
     y_cords = []
     z_cords = []
 
-    for obj in collection.all_objects:
+    for obj in collection.objects:
         x_cords.append(obj.location.x - (obj.dimensions.x / 2))
         x_cords.append(obj.location.x + (obj.dimensions.x / 2))
 
@@ -230,7 +230,7 @@ def place_object(idx_object, obj_colletion, placements, rot_x_min, rot_x_max, ro
         euler_x = math.radians(random.uniform(rot_x_min, rot_x_max))
         euler_y = math.radians(random.uniform(rot_y_min, rot_y_max))
 
-        for obj in obj_colletion.all_objects:
+        for obj in obj_colletion.objects:
             obj.rotation_euler[0] = euler_x
             obj.rotation_euler[1] = euler_y
         # End make random rotation
@@ -250,7 +250,7 @@ def place_object(idx_object, obj_colletion, placements, rot_x_min, rot_x_max, ro
         lowest_vertex = lowest_vertex[0]
     else:
         collection_lowest_vertex = []
-        for obj in obj_colletion.all_objects:
+        for obj in obj_colletion.objects:
             collection_lowest_vertex.append(get_lowest_vertex_by_object(obj))
 
         lowest_vertex = min(collection_lowest_vertex, key=lambda v: v.z)
@@ -259,7 +259,7 @@ def place_object(idx_object, obj_colletion, placements, rot_x_min, rot_x_max, ro
 
     bpy.ops.object.select_all(action='DESELECT')
 
-    for obj in obj_colletion.all_objects:
+    for obj in obj_colletion.objects:
         obj.select_set(True)
         bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
         obj.location.z = 0.0
@@ -316,7 +316,7 @@ def place_object(idx_object, obj_colletion, placements, rot_x_min, rot_x_max, ro
                 object_loc_y_new = random.uniform(loc_y_lb + object_dim_max * lb_scale,
                                                   loc_y_lb + object_dim_max * ub_scale)
 
-    for obj in obj_colletion.all_objects:
+    for obj in obj_colletion.objects:
         obj.location.x = object_loc_x_new
         obj.location.y = object_loc_y_new
     # End set location
@@ -965,7 +965,7 @@ def set_object_texture(object, texture_type=0, img_dir=None, pbr_dir=None, log_p
     return object
 
 
-def enable_compositing(segment_out_path, index):
+def enable_compositing(segment_out_path, index, current_object_pass_index):
     """
     Creates segmentation maps by utilizing Blenders compositing system. Objects are segmented by using the
     previously applied object_index. The segmentation file is created during the rendering step.
@@ -1002,9 +1002,10 @@ def enable_compositing(segment_out_path, index):
     segmentation_value = 0.01
     segmentation_count = 1
 
+    # Add color ramp element for each object that has an object pass index. Objects with a pass index should be
+    # included in the segmentation masks.
     print("Started Color ramp")
-    for idx, obj in enumerate(bpy.data.objects):
-        if obj.name.startswith("object_") or obj.name.startswith("distractor_"):
+    for i in range(current_object_pass_index):
             print("adding element")
             color_ramp.color_ramp.elements.new(segmentation_value)
             print("Adding color")
@@ -1140,8 +1141,8 @@ def camera_view_bounds_2d(scene, camera_object, mesh_object, fast_bboxes=True):
                     lx.append(x)
                     ly.append(y)
 
-    print("Loop time: " + str(time.time() - loop_time))
-    print("Object hit: " + str(hit_count) + "/" + str(len(mesh.vertices)))
+    print("Bounding box calculation time: " + str(time.time() - loop_time))
+    print("Ratio of vertex in view: " + str(hit_count) + "/" + str(len(mesh.vertices)))
     # print("Object vert diff: " + str(vert_count) + "/" + str(len(mesh.vertices)))
 
     mesh_object.to_mesh_clear()
@@ -1168,20 +1169,24 @@ def camera_view_bounds_2d(scene, camera_object, mesh_object, fast_bboxes=True):
     return [x_center, y_center, width, height]
 
 
-def make_bbox(scene, camera, names2labels, object_names, faster_bboxes):
+def make_bbox(scene, camera, objname2classname, object_labels, object_files_index_dict, faster_bboxes):
     """
 
     Calculates the bounding box for each object in the scene.
 
     :param scene: Blender scene object
     :param camera: Camera object
-    :param object_index_dict: Dict containing the label of the objects as values and the names of the objects as keys
+    :param objname2classname: Dict containing the actual name of objects as values and
+    the names of the objects in the scene as keys
+    :param object_labels: Dict containing the object labels (ints) as values and
+    the names of the objects as keys
+    :param object_files_index_dict: Dict containing the index of the .obj file as value and the object name a key.
     :param faster_bboxes: Faster bounding box calculation method boolean.
     :return: List of bounding boxes of objects in the scene in the YOLO XYWH format.
     """
     bpy.context.view_layer.update()
 
-    print(object_index_dict)
+    print(object_files_index_dict)
     print(bpy.data.objects)
 
     for obj in bpy.data.objects:
@@ -1196,9 +1201,9 @@ def make_bbox(scene, camera, names2labels, object_names, faster_bboxes):
             print(an_obj.name)
             bbox = camera_view_bounds_2d(scene, camera, an_obj, faster_bboxes)
             if bbox is not None and 0.002 < min(bbox[-2:]):
-                object_label = object_names[names2labels[an_obj.name]]
+                object_label = object_labels[objname2classname[an_obj.name]]
                 bboxes.append((object_label, bbox))
-                print(str(object_index_dict[an_obj.name]) + ": " + str(bbox))
+                print(str(object_files_index_dict[an_obj.name]) + ": " + str(bbox))
 
     return bboxes
 
@@ -1293,7 +1298,7 @@ if __name__ == '__main__':
     # list all models in the model path.
     files = sorted([file for file in os.listdir(models_path) if file.endswith(".obj")])
     objects_library = {}
-    names2labels = {}
+    objname2classname = {}
 
     # Start system parameters
     config_sys_render_engine_samples_max = config_json["system"]["render_engine_samples_max"]
@@ -1384,6 +1389,9 @@ if __name__ == '__main__':
 
     render_engines = ['CYCLES', 'BLENDER_EEVEE']
 
+    bpy.context.scene.render.resolution_x = config_user_render_image_width
+    bpy.context.scene.render.resolution_y = config_user_render_image_height
+
     object_labels = config_user_object_label
     bbox_img_labels = {int(v): k for k, v in object_labels.items()}
 
@@ -1452,14 +1460,12 @@ if __name__ == '__main__':
 
     for device in prefs.devices:
         device["use"] = 0
-        print(device["name"], device["use"])
 
     # Filter devices in Generation based on Bus ID
     for device in prefs.devices:
         # Parse Bus ID from device["id"] string
         if device.type == "CUDA":
             bus_id = device["id"].split("_")[-1]  # Extract "0000:4e:00"
-            print("bus Id: ", bus_id)
             if bus_id in bus_ids:
                 print(f"Enabled GPU: {device.name} with Bus ID {bus_id}")
                 device["use"] = 1
@@ -1485,7 +1491,7 @@ if __name__ == '__main__':
         objects_library[model_path] = collection_name
 
         if config_user_objects_texture_type != -1:
-            for obj in bpy.data.collections[collection_name].all_objects:
+            for obj in bpy.data.collections[collection_name].objects:
                 obj.select_set(True)
                 bpy.ops.object.mode_set(mode='EDIT')
                 bpy.ops.mesh.select_mode(type="FACE")
@@ -1496,10 +1502,10 @@ if __name__ == '__main__':
                 bpy.ops.uv.pack_islands(margin=0)
                 bpy.ops.object.mode_set(mode='OBJECT')
 
-        for idx, obj in enumerate(bpy.data.collections[collection_name].all_objects):
+        for idx, obj in enumerate(bpy.data.collections[collection_name].objects):
             new_obj_name = "object_" + model_label + str(idx)
             obj_name = re.sub(r'\.\d{3}$', '', obj.name)
-            names2labels[new_obj_name] = obj_name
+            objname2classname[new_obj_name] = obj_name
 
 
             try:
@@ -1536,7 +1542,7 @@ if __name__ == '__main__':
 
             bpy.data.scenes["Scene"].render.engine = render_engine
 
-            object_index_dict = {}
+            object_files_index_dict = {}
 
             config_sys_render_output_path = os.path.abspath(config_json["img_work_path"])
             config_sys_render_output_filename = str(filename)
@@ -1563,33 +1569,19 @@ if __name__ == '__main__':
             used_texture_procedural = set()
 
             try:
+                remove_collections = [collection for collection in bpy.data.collections if collection.name.endswith("_duplicate") or collection.name.endswith("_distractor")]
 
-                # Start clean the scene
-                existing_objects = [obj for obj in bpy.data.objects if
-                                    obj.type == 'MESH' and obj.name.startswith("object_") and not obj.name.endswith(
-                                        "_duplicate")]
-                for existing_obj in existing_objects:
-
-                    for exist_material in existing_obj.data.materials:
-                        updated_material = delete_shader_nodes(exist_material)
-
-
-                existing_collections = [collection for collection in bpy.data.collections if collection.name.endswith("_duplicate") or collection.name.endswith("_distractor")]
-
-                for collection in existing_collections:
+                for collection in remove_collections:
                     bpy.data.collections.remove(collection)
-
-                for collection in bpy.data.collections:
-                    collection.hide_viewport = True
-                    collection.hide_render = True
 
                 # Do not remove 3d objects, but remove distractors, ground, and walls.
                 remove_objects = [obj for obj in bpy.data.objects if
                                   obj.name.endswith("_duplicate") or not obj.name.startswith("object_")]
 
+
                 for remove_obj in remove_objects:
                     if remove_obj.name.endswith("_duplicate"):
-                        del names2labels[remove_obj.name]
+                        del objname2classname[remove_obj.name]
 
                     bpy.data.objects.remove(remove_obj, do_unlink=True)
 
@@ -1609,12 +1601,26 @@ if __name__ == '__main__':
                     if block.users == 0:
                         bpy.data.images.remove(block)
 
+                for collection in bpy.data.collections:
+                    collection.hide_viewport = True
+                    collection.hide_render = True
+
+                # Start clean the scene
+                existing_objects = [obj for obj in bpy.data.objects if
+                                    obj.type == 'MESH' and obj.name.startswith("object_") and not obj.name.endswith(
+                                        "_duplicate")]
+                for existing_obj in existing_objects:
+                    existing_obj.hide_viewport = True
+                    existing_obj.hide_render = True
+                    for exist_material in existing_obj.data.materials:
+                        updated_material = delete_shader_nodes(exist_material)
+
+                bpy.context.view_layer.update()
                 # End clean the scene
 
                 print("Finished Clean")
 
-                bpy.context.scene.render.resolution_x = config_user_render_image_width
-                bpy.context.scene.render.resolution_y = config_user_render_image_height
+
 
                 # Load the objects into the scene
                 current_pass_object_index = 1
@@ -1673,12 +1679,12 @@ if __name__ == '__main__':
 
                                 duplicate_collection_name = collection_name + "_" + str(collection_duplications[collection_name]) + "_duplicate"
 
-                                for obj in bpy.data.collections[collection_name].all_objects:
+                                for obj in bpy.data.collections[collection_name].objects:
                                     original_name = obj.name
                                     duplicate_name = f"{original_name}_{str(collection_duplications[collection_name])}_duplicate"
 
-                                    obj_label = names2labels[original_name]
-                                    names2labels[duplicate_name] = obj_label
+                                    obj_label = objname2classname[original_name]
+                                    objname2classname[duplicate_name] = obj_label
 
                                     duplicate = obj.copy()
                                     duplicate.data = obj.data.copy()
@@ -1707,10 +1713,13 @@ if __name__ == '__main__':
 
                             bpy.data.collections[collection_name].hide_viewport = False
                             bpy.data.collections[collection_name].hide_render = False
-
-                            for obj in bpy.data.collections[collection_name].all_objects:
+                            bpy.context.view_layer.update()
+                            print("Unhiding collection: ", collection_name)
+                            for obj in bpy.data.collections[collection_name].objects:
+                                print("Selecting object: ", obj.name)
                                 selected_objects.append(obj)
-
+                                obj.hide_viewport = False
+                                obj.hide_render = False
                             # Start write to log file
                                 log_message = "Use existing Collection: " + collection_name
                                 print_to_log(config_sys_render_log_path, config_sys_render_log_filename, log_message,
@@ -1726,15 +1735,14 @@ if __name__ == '__main__':
                         object_lowest_vertex = mathutils.Vector((10.0, 10.0, 10.0))
                         collection_max_size = 0.0
 
-                        print("Selected_objects: " + str(bpy.data.collections[collection_name].all_objects))
                         print("objects_library: " + str(objects_library))
 
-                        for idx, selected_object in enumerate(bpy.data.collections[collection_name].all_objects):
+                        for idx, selected_object in enumerate(bpy.data.collections[collection_name].objects):
 
                             # Start write to log file
                             log_message = "Set object name: " + selected_object.name
 
-                            object_index_dict[selected_object.name] = files.index(model)
+                            object_files_index_dict[selected_object.name] = files.index(model)
 
                             print_to_log(config_sys_render_log_path, config_sys_render_log_filename, log_message,
                                          config_sys_render_log_verbose)
@@ -1779,7 +1787,7 @@ if __name__ == '__main__':
                 bpy.ops.object.select_all(action='DESELECT')
 
                 # Load the distractors into the scene
-                load_distractors(current_pass_object_index, object_max_size * 0.5,
+                current_pass_object_index = load_distractors(current_pass_object_index, object_max_size * 0.5,
                                  config_user_total_distracting_objects,
                                  distractor_type=config_user_distracting_objects_type,
                                  distractor_segmentations=config_user_distractor_segmentations,
@@ -1817,7 +1825,7 @@ if __name__ == '__main__':
                                  config_sys_render_log_verbose)
                     # End write to log file
 
-                    for an_obj in an_collection.all_objects:
+                    for an_obj in an_collection.objects:
                         an_obj = set_object_texture(an_obj, texture_type=config_user_objects_texture_type,
                                                 img_dir=config_sys_image_texture_pool,
                                                 pbr_dir=config_sys_pbr_texture_pool,
@@ -2108,7 +2116,8 @@ if __name__ == '__main__':
 
                 bb_time = time.time()
                 #
-                object_bboxes = make_bbox(scene, camera, names2labels, object_labels, config_user_faster_bboxes)
+                object_bboxes = make_bbox(scene, camera, objname2classname, object_labels,
+                                          object_files_index_dict, config_user_faster_bboxes)
 
                 print(object_bboxes)
 
@@ -2119,7 +2128,7 @@ if __name__ == '__main__':
 
                 # Start setup segmentation nodes
                 if config_user_enable_segmentations:
-                    enable_compositing(config_sys_render_segmentation_path, filename)
+                    enable_compositing(config_sys_render_segmentation_path, filename, current_pass_object_index)
                     # End setup segmentation nodes
 
                 bpy.data.scenes["Scene"].cycles.max_bounces = 32
