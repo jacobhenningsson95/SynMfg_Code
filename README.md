@@ -6,8 +6,8 @@
   
 This code generates synthetic data from 3D models using domain randomization. We use two datasets to generate synthetic images and train an object detection model, which performs well on real-world data.  
 1. **Robotic Dataset**: Published by [Horváth et al.](https://ieeexplore.ieee.org/document/9916581), this dataset includes both 3D models and real images.
-   - 📂 **3D Models**: Located in `data/Objects/Robotic/`, containing 10 `.obj` files.
-   - 🖼️ **Real Images**: Download from [Dropbox – Public Robotic Dataset](https://www.dropbox.com/scl/fo/inrb5pydc9y67py9m24xw/AHrNJUr0ANkux2wlX72Txxw?rlkey=pkpuxq2hbejbhhgkxz1e860p6&st=xcij40fl&dl=0). We We use the `yolo_cropped_all` subset for real-image evaluation.
+     📂 **3D Models**: Located in `data/Objects/Robotic/`, containing 10 `.obj` files.
+     🖼️ **Real Images**: Download from [Dropbox – Public Robotic Dataset](https://www.dropbox.com/scl/fo/inrb5pydc9y67py9m24xw/AHrNJUr0ANkux2wlX72Txxw?rlkey=pkpuxq2hbejbhhgkxz1e860p6&st=xcij40fl&dl=0). We We use the `yolo_cropped_all` subset for real-image evaluation.
 
 2.  **SIP15-OD Dataset**: Developed by us. It contains 15 manufacturing object 3D models across three use cases, along with 395 real images featuring 996 annotated objects taken in various manufacturing environments. The SIP15-OD dataset will be released soon.
 
