@@ -53,6 +53,10 @@ Below are samples of the synthetic data and their real-world counterparts from t
   </tr>
 </table>
 
+## Introduction  
+
+
+# Getting Started  
 
 ## Setup Python environment
 
