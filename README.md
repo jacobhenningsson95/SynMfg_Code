@@ -55,6 +55,29 @@ Below are samples of the synthetic data and their real-world counterparts from t
 
 ## Introduction  
 
+This repository presents our domain randomization pipeline for synthetic data generation in manufacturing object detection.
+
+The pipeline generates synthetic images using **Blender**, where domain randomization is applied across five components of the generation process:
+
+- 3D scene initialization  
+- Object sampling  
+- Illumination sampling  
+- Camera view capture  
+- Post-processing  
+
+From parameter configuration to rendering and automatic ground-truth annotation, the system produces fully labeled synthetic datasets. These synthetic images are used to train an object detection model, which is then evaluated on real-world test data to assess sim-to-real performance.
+
+<p align="center">
+  <img src="Figures/flowchat.jpg" width="900"/>
+</p>
+<p align="center">
+  <em>Domain randomization pipeline: synthetic data generation in Blender followed by model training on synthetic data and evaluation on real images.</em>
+</p>
+
+Through systematic experiments, we identify material properties, rendering methods, post-processing strategies, and distractors as critical factors for real-world generalization.
+
+Training exclusively on synthetic data, the proposed pipeline achieves **96.4% mAP@50** on the public robotics dataset and **94.1%, 99.5%, and 95.3% mAP@50** across the three SIP15-OD use cases. These results demonstrate that carefully designed domain randomization can approximate real industrial data distributions without requiring real training images.  
+
 
 # Getting Started  
 
