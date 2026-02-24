@@ -30,10 +30,10 @@ This code generates synthetic data from 3D models using domain randomization. We
    - 🖼️ **Real Images**: Download from [Dropbox – Public Robotic Dataset](https://www.dropbox.com/scl/fo/inrb5pydc9y67py9m24xw/AHrNJUr0ANkux2wlX72Txxw?rlkey=pkpuxq2hbejbhhgkxz1e860p6&st=xcij40fl&dl=0). We We use the `yolo_cropped_all` subset for real-image evaluation.
 
 2.  **SIP15-OD Dataset**: Developed by us. It contains 15 manufacturing object 3D models across three use cases, along with 395 real images featuring 996 annotated objects taken in various manufacturing environments.  
-Due to company policy, the **original CAD models cannot be publicly released**. However, the **real-world annotated images** are available via: [Roboflow-SIP15OD](https://app.roboflow.com/mandyresearch/projects?group=fEeYdP7eB7sQNcVG7PS5)
+Due to company policy, the **original CAD models cannot be publicly released**. However, the **real-world annotated images** are available via: [Roboflow-SIP15OD](https://app.roboflow.com/mandyresearch/projects?group=fEeYdP7eB7sQNcVG7PS5).  
 
 2.  **SIP2A-OD Dataset**: Developed by our team, this dataset focuses on two assembly use cases and contains 249 annotated real-world images collected from diverse industrial environments.
-Due to company policy, the **original CAD models cannot be publicly released**. However, the **real-world annotated images** are available via: [Roboflow-SIP2AOD](https://app.roboflow.com/mandyresearch/projects?group=fEeYdP7eB7sQNcVG7PS5)  
+Due to company policy, the **original CAD models cannot be publicly released**. However, the **real-world annotated images** are available via: [Roboflow-SIP2AOD](https://app.roboflow.com/mandyresearch/projects?group=hujtblPzeBd7smpQOWOk).  
 
 
 Below are samples of the synthetic data and their real-world counterparts from the robotic dataset, as well as the three use cases from the SIP-15-OD dataset.  
