@@ -4,24 +4,25 @@
 
 **This repository contains the source code and datasets for our ICRA 2025 and ICCVW 2025 papers:**
 
-### ICRA 2025, focus on individual objects (logistics use cases)
+### 📌 ICRA 2025, focus on individual objects (logistics use cases)
 X. Zhu, J. Henningsson, D. Li, P. Mårtensson, L. Hanson, M. Björkman, and A. Maki,  
 *"Domain Randomization for Object Detection in Manufacturing Applications Using Synthetic Data: A Comprehensive Study,"*  
 Proceedings of the **2025 IEEE International Conference on Robotics and Automation (ICRA)**, Atlanta, GA, USA, 2025, pp. 16715–16721.  
 📄 [Paper (IEEE Xplore)](https://ieeexplore.ieee.org/document/11128647)
 
-### ICCVW 2025, focus on assembly objects, two objects aligned to each other (assembly use cases). 
+### 📌 ICCVW 2025, focus on assembly objects, two objects aligned to each other (assembly use cases). 
 X. Zhu, J. Henningsson, D. Li, P. Mårtensson, L. Hanson, M. Björkman, and A. Maki,  
 *"Towards Automated Assembly Quality Inspection with Synthetic Data and Domain Randomization,"*  
 Proceedings of the **IEEE/CVF International Conference on Computer Vision (ICCV) Workshops**, October 2025, pp. 1395–1403.  
 📄 [Paper (CVF Open Access)](https://openaccess.thecvf.com/content/ICCV2025W/VISION%2725/html/Zhu_Towards_Automated_Assembly_Quality_Inspection_with_Synthetic_Data_and_Domain_ICCVW_2025_paper.html)  
 For assembled objects, you should follow the [Object Preparation](https://github.com/mandyxiaomeng/SynMfg/tree/main/data/Objects) to prepare the CAD models.  
 
-### Subsequent Work
+This repository is also part of a broader research line on synthetic data for manufacturing vision systems.  
+### 🔄 Subsequent Work
 This work focuses on generating a static synthetic dataset and training an object detection model without using any real data. In our subsequent work, we extend this approach with **Synthetic Active Learning (SAL)**, where synthetic data is iteratively generated to target the model’s weaknesses and continuously improve detection performance. If you are interested, please refer to our Journal of Manufacturing Systems paper: [**Designing Synthetic Active Learning for Model Refinement in Manufacturing Parts Detection**](https://doi.org/10.1016/j.jmsy.2025.11.023).  
 And its GitHub Repo: [SAL](https://github.com/jacobhenningsson95/Synthetic_Active_Learning_Code).  
 
-### Previous Work
+### ⬅️ Previous Work
 This work focuses on **object detection** tasks; our previous work focused on the **classification** task. We introduced a synthetic classification dataset and systematically evaluated sim-to-real transfer for manufacturing components. For details, please refer to our previous classification repository: [SIP-17 – Synthetic Industrial Parts Classification Dataset](https://github.com/BilalTalha/SIP-17/tree/main)  
 
 
