@@ -20,7 +20,7 @@ For assembled objects, you should follow the [Object Preparation](https://github
 ### Subsequent Work
 This work focuses on generating a static synthetic dataset and training an object detection model without using any real data. In our subsequent work, we extend this approach with **Synthetic Active Learning (SAL)**, where synthetic data is iteratively generated to target the model’s weaknesses and continuously improve detection performance. If you are interested, please refer to our Journal of Manufacturing Systems paper:  
 [**Designing Synthetic Active Learning for Model Refinement in Manufacturing Parts Detection**](https://doi.org/10.1016/j.jmsy.2025.11.023).  
-And its [GitHub Repo](https://github.com/jacobhenningsson95/Synthetic_Active_Learning_Code).  
+And its GitHub Repo: [SAL](https://github.com/jacobhenningsson95/Synthetic_Active_Learning_Code).  
 
 
 ## Related Datasets  
