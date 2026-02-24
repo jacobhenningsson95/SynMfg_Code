@@ -14,12 +14,13 @@ Proceedings of the **2025 IEEE International Conference on Robotics and Automati
 X. Zhu, J. Henningsson, D. Li, P. Mårtensson, L. Hanson, M. Björkman, and A. Maki,  
 *"Towards Automated Assembly Quality Inspection with Synthetic Data and Domain Randomization,"*  
 Proceedings of the **IEEE/CVF International Conference on Computer Vision (ICCV) Workshops**, October 2025, pp. 1395–1403.  
-📄 [Paper (CVF Open Access)](https://openaccess.thecvf.com/content/ICCV2025W/VISION%2725/html/Zhu_Towards_Automated_Assembly_Quality_Inspection_with_Synthetic_Data_and_Domain_ICCVW_2025_paper.html)
+📄 [Paper (CVF Open Access)](https://openaccess.thecvf.com/content/ICCV2025W/VISION%2725/html/Zhu_Towards_Automated_Assembly_Quality_Inspection_with_Synthetic_Data_and_Domain_ICCVW_2025_paper.html)  
 For assembled objects, you should follow the [Object Preparation](https://github.com/mandyxiaomeng/SynMfg/tree/main/data/Objects) to prepare the CAD models.  
 
 ### Subsequent Work
 This work focuses on generating a static synthetic dataset and training an object detection model without using any real data. In our subsequent work, we extend this approach with **Synthetic Active Learning (SAL)**, where synthetic data is iteratively generated to target the model’s weaknesses and continuously improve detection performance. If you are interested, please refer to our Journal of Manufacturing Systems paper:  
 [**Designing Synthetic Active Learning for Model Refinement in Manufacturing Parts Detection**](https://doi.org/10.1016/j.jmsy.2025.11.023).  
+And its [GitHub Repo](https://github.com/jacobhenningsson95/Synthetic_Active_Learning_Code).  
 
 
 ## Related Datasets  
