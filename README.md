@@ -1,5 +1,3 @@
-github# Domain Randomization for Object Detection in Manufacturing Applications using Synthetic Data: A Comprehensive Study
-
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Related Publications
