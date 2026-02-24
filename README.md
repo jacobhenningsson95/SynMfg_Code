@@ -2,22 +2,37 @@ github# Domain Randomization for Object Detection in Manufacturing Applications 
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-****This repository contains the source code and dataset for our ICRA 2025 paper:**  
+## Related Publications
 
-X. Zhu et al., *"Domain Randomization for Object Detection in Manufacturing Applications Using Synthetic Data: A Comprehensive Study,"*  
-2025 IEEE International Conference on Robotics and Automation (ICRA), Atlanta, GA, USA, 2025, pp. 16715–16721.  
+**This repository contains the source code and datasets for our ICRA 2025 and ICCVW 2025 papers:**
 
-The full paper is available on IEEE Xplore:  
-https://ieeexplore.ieee.org/document/11128647**  
-  
+### ICRA 2025  
+X. Zhu, J. Henningsson, D. Li, P. Mårtensson, L. Hanson, M. Björkman, and A. Maki,  
+*"Domain Randomization for Object Detection in Manufacturing Applications Using Synthetic Data: A Comprehensive Study,"*  
+Proceedings of the **2025 IEEE International Conference on Robotics and Automation (ICRA)**, Atlanta, GA, USA, 2025, pp. 16715–16721.  
+📄 [Paper (IEEE Xplore)](https://ieeexplore.ieee.org/document/11128647)
+
+### ICCVW 2025  
+X. Zhu, J. Henningsson, D. Li, P. Mårtensson, L. Hanson, M. Björkman, and A. Maki,  
+*"Towards Automated Assembly Quality Inspection with Synthetic Data and Domain Randomization,"*  
+Proceedings of the **IEEE/CVF International Conference on Computer Vision (ICCV) Workshops**, October 2025, pp. 1395–1403.  
+📄 [Paper (CVF Open Access)](https://openaccess.thecvf.com/content/ICCV2025W/VISION%2725/html/Zhu_Towards_Automated_Assembly_Quality_Inspection_with_Synthetic_Data_and_Domain_ICCVW_2025_paper.html)
+
+
+
+## Related Datasets  
+
 This code generates synthetic data from 3D models using domain randomization. We use two datasets to generate synthetic images and train an object detection model, which performs well on real-world data.  
 1. **Robotic Dataset**: Published by [Horváth et al.](https://ieeexplore.ieee.org/document/9916581), this dataset includes both 3D models and real images.
    - 📂 **3D Models**: Located in `data/Objects/Robotic/`, containing 10 `.obj` files.
    - 🖼️ **Real Images**: Download from [Dropbox – Public Robotic Dataset](https://www.dropbox.com/scl/fo/inrb5pydc9y67py9m24xw/AHrNJUr0ANkux2wlX72Txxw?rlkey=pkpuxq2hbejbhhgkxz1e860p6&st=xcij40fl&dl=0). We We use the `yolo_cropped_all` subset for real-image evaluation.
 
-2.  **SIP15-OD Dataset**: Developed by us. It contains 15 manufacturing object 3D models across three use cases, along with 395 real images featuring 996 annotated objects taken in various manufacturing environments.
-Due to company policy, the **original CAD models cannot be publicly released**. However, the **real-world annotated images** are available via:  
-[Roboflow](https://app.roboflow.com/mandyresearch/projects?group=fEeYdP7eB7sQNcVG7PS5)  
+2.  **SIP15-OD Dataset**: Developed by us. It contains 15 manufacturing object 3D models across three use cases, along with 395 real images featuring 996 annotated objects taken in various manufacturing environments.  
+Due to company policy, the **original CAD models cannot be publicly released**. However, the **real-world annotated images** are available via:[Roboflow](https://app.roboflow.com/mandyresearch/projects?group=fEeYdP7eB7sQNcVG7PS5)
+
+2.  **SIP2A-OD Dataset**: Developed by our team, this dataset focuses on two assembly use cases and contains 249 annotated real-world images collected from diverse industrial environments.
+Due to company policy, the **original CAD models cannot be publicly released**. However, the **real-world annotated images** are available via:[Roboflow](https://app.roboflow.com/mandyresearch/projects?group=fEeYdP7eB7sQNcVG7PS5)  
+
 
 Below are samples of the synthetic data and their real-world counterparts from the robotic dataset, as well as the three use cases from the SIP-15-OD dataset.  
 
