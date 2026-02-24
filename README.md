@@ -28,10 +28,10 @@ This code generates synthetic data from 3D models using domain randomization. We
    - 🖼️ **Real Images**: Download from [Dropbox – Public Robotic Dataset](https://www.dropbox.com/scl/fo/inrb5pydc9y67py9m24xw/AHrNJUr0ANkux2wlX72Txxw?rlkey=pkpuxq2hbejbhhgkxz1e860p6&st=xcij40fl&dl=0). We We use the `yolo_cropped_all` subset for real-image evaluation.
 
 2.  **SIP15-OD Dataset**: Developed by us. It contains 15 manufacturing object 3D models across three use cases, along with 395 real images featuring 996 annotated objects taken in various manufacturing environments.  
-Due to company policy, the **original CAD models cannot be publicly released**. However, the **real-world annotated images** are available via:[Roboflow](https://app.roboflow.com/mandyresearch/projects?group=fEeYdP7eB7sQNcVG7PS5)
+Due to company policy, the **original CAD models cannot be publicly released**. However, the **real-world annotated images** are available via: [Roboflow-SIP15OD](https://app.roboflow.com/mandyresearch/projects?group=fEeYdP7eB7sQNcVG7PS5)
 
 2.  **SIP2A-OD Dataset**: Developed by our team, this dataset focuses on two assembly use cases and contains 249 annotated real-world images collected from diverse industrial environments.
-Due to company policy, the **original CAD models cannot be publicly released**. However, the **real-world annotated images** are available via:[Roboflow](https://app.roboflow.com/mandyresearch/projects?group=fEeYdP7eB7sQNcVG7PS5)  
+Due to company policy, the **original CAD models cannot be publicly released**. However, the **real-world annotated images** are available via: [Roboflow-SIP2AOD](https://app.roboflow.com/mandyresearch/projects?group=fEeYdP7eB7sQNcVG7PS5)  
 
 
 Below are samples of the synthetic data and their real-world counterparts from the robotic dataset, as well as the three use cases from the SIP-15-OD dataset.  
@@ -185,17 +185,27 @@ We also thank previous works in domain randomization for industrial applications
 
 We acknowledge the contributions of the YOLOv8 model from Ultralytics, which we used for training our model.
 
-## Citation 
-If you find our work helpful for your research, please consider citing the following BibTeX entry.
-```
-@inproceedings{Zhu2025,
-  author    = {Zhu, Xiaomeng and Henningsson, Jacob and Li, Duruo and M{\aa}rtensson, P{\aa}r and Hanson, Lars and Bj{\"o}rkman, M{\aa}rten and Maki, Atsuto},
-  title     = {Domain Randomization for Object Detection in Manufacturing Applications using Synthetic Data: A Comprehensive Study},
-  booktitle = {Proceedings of the IEEE International Conference on Robotics and Automation (ICRA)},
+## Citation
+
+If you find our work helpful for your research, please consider citing:
+
+```bibtex
+@inproceedings{Zhu2025ICRA,
+  author    = {Zhu, Xiaomeng and Henningsson, Jacob and Li, Duruo and Mårtensson, Pär and Hanson, Lars and Björkman, Mårten and Maki, Atsuto},
+  title     = {Domain Randomization for Object Detection in Manufacturing Applications Using Synthetic Data: A Comprehensive Study},
+  booktitle = {2025 IEEE International Conference on Robotics and Automation (ICRA)},
   year      = {2025},
-  note      = {Accepted for publication. To appear.}
+  pages     = {16715--16721},
+  doi       = {10.1109/ICRA55743.2025.11128647}
 }
-```
+
+@inproceedings{Zhu2025ICCVW,
+  author    = {Zhu, Xiaomeng and Henningsson, Jacob and Li, Duruo and M{\aa}rtensson, P{\aa}r and Hanson, Lars and Bj{\"o}rkman, M{\aa}rten and Maki, Atsuto},
+  title     = {Towards Automated Assembly Quality Inspection with Synthetic Data and Domain Randomization},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) Workshops},
+  year      = {2025},
+  pages     = {1395--1403}
+}
 
 <!--
 ## Citation 
