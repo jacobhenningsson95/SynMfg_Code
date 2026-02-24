@@ -189,6 +189,8 @@ We acknowledge the contributions of the YOLOv8 model from Ultralytics, which we 
 
 If you find our work helpful for your research, please consider citing:
 
+### ICRA 2025
+
 ```bibtex
 @inproceedings{Zhu2025ICRA,
   author    = {Zhu, Xiaomeng and Henningsson, Jacob and Li, Duruo and Mårtensson, Pär and Hanson, Lars and Björkman, Mårten and Maki, Atsuto},
@@ -205,12 +207,6 @@ If you find our work helpful for your research, please consider citing:
   booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) Workshops},
   year      = {2025},
   pages     = {1395--1403}
-}
-
-<!--
-## Citation 
-If you find our work helpful for your research, please consider citing the following BibTeX entry.
-
-To be added.
+}  
 -->
 
