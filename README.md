@@ -53,7 +53,7 @@ Below are samples of the synthetic data and their real-world counterparts from t
   </tr>
 </table>
 
-## Introduction  
+# Introduction  
 
 This repository presents our domain randomization pipeline for synthetic data generation in manufacturing object detection.
 
