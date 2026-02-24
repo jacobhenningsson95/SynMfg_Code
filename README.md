@@ -18,12 +18,12 @@ Proceedings of the **IEEE/CVF International Conference on Computer Vision (ICCV)
 For assembled objects, you should follow the [Object Preparation](https://github.com/mandyxiaomeng/SynMfg/tree/main/data/Objects) to prepare the CAD models.  
 
 **This repository is also part of a broader research line on synthetic data for manufacturing vision systems.**    
-### 🔄 Subsequent Work
-This work focuses on generating a static synthetic dataset and training an object detection model without using any real data. In our subsequent work, we extend this approach with **Synthetic Active Learning (SAL)**, where synthetic data is iteratively generated to target the model’s weaknesses and continuously improve detection performance. If you are interested, please refer to our Journal of Manufacturing Systems paper: [**Designing Synthetic Active Learning for Model Refinement in Manufacturing Parts Detection**](https://doi.org/10.1016/j.jmsy.2025.11.023).  
-And its GitHub Repo: [SAL](https://github.com/jacobhenningsson95/Synthetic_Active_Learning_Code).  
+### ➡️ Subsequent Work
+This work focuses on generating a static synthetic dataset and training an object detection model without using any real data. In our subsequent work, we extend this approach with **Synthetic Active Learning (SAL)**, where synthetic data is iteratively generated to target the model’s weaknesses and continuously improve detection performance. If you are interested, please refer to our 📄 Journal of Manufacturing Systems paper: [**Designing Synthetic Active Learning for Model Refinement in Manufacturing Parts Detection**](https://doi.org/10.1016/j.jmsy.2025.11.023).  
+And its 💻 GitHub Repo: [SAL](https://github.com/jacobhenningsson95/Synthetic_Active_Learning_Code).  
 
 ### ⬅️ Previous Work
-This work focuses on **object detection** tasks; our previous work focused on the **classification** task. We introduced a synthetic classification dataset and systematically evaluated sim-to-real transfer for manufacturing components. For details, please refer to our previous classification repository: [SIP-17 – Synthetic Industrial Parts Classification Dataset](https://github.com/BilalTalha/SIP-17/tree/main)  
+This work focuses on **object detection** tasks; our previous work focused on the **classification** task. We introduced a synthetic classification dataset and systematically evaluated sim-to-real transfer for manufacturing components. For details, please refer to our previous classification 💻 repository: [SIP-17 – Synthetic Industrial Parts Classification Dataset](https://github.com/BilalTalha/SIP-17/tree/main)  
 
 
 
