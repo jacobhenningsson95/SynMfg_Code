@@ -199,8 +199,12 @@ If you find our work helpful for your research, please consider citing:
   year      = {2025},
   pages     = {16715--16721},
   doi       = {10.1109/ICRA55743.2025.11128647}
-}
+}  
+```  
 
+### ICCVW 2025
+
+```bibtex
 @inproceedings{Zhu2025ICCVW,
   author    = {Zhu, Xiaomeng and Henningsson, Jacob and Li, Duruo and M{\aa}rtensson, P{\aa}r and Hanson, Lars and Bj{\"o}rkman, M{\aa}rten and Maki, Atsuto},
   title     = {Towards Automated Assembly Quality Inspection with Synthetic Data and Domain Randomization},
@@ -208,5 +212,4 @@ If you find our work helpful for your research, please consider citing:
   year      = {2025},
   pages     = {1395--1403}
 }  
--->
-
+```  
