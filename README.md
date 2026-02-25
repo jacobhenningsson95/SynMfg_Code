@@ -226,7 +226,7 @@ We acknowledge the contributions of the YOLOv8 model from Ultralytics, which we 
 
 If you find our work helpful for your research, please consider citing:
 
-### ICRA 2025
+### ICRA 2025 (Separated objects, logistics use cases)
 
 ```bibtex
 @inproceedings{Zhu2025ICRA,
@@ -239,7 +239,7 @@ If you find our work helpful for your research, please consider citing:
 }  
 ```  
 
-### ICCVW 2025
+### ICCVW 2025 (Assembled objects, assembly use cases)
 
 ```bibtex
 @inproceedings{Zhu2025ICCVW,
