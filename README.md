@@ -25,7 +25,7 @@ And its 💻 GitHub Repo: [**SAL**](https://github.com/jacobhenningsson95/Synthe
 
 ### ⬅️ Previous Work
 This work focuses on **object detection** tasks; our previous work focused on the **classification** task. We introduced a synthetic classification dataset and systematically evaluated sim-to-real transfer for manufacturing components. For details, please refer to our previous paper:  
-📄 [Towards Sim-to-Real Industrial Parts Classification With Synthetic Dataset](https://openaccess.thecvf.com/content/CVPR2023W/VISION/html/Zhu_Towards_Sim-to-Real_Industrial_Parts_Classification_With_Synthetic_Dataset_CVPRW_2023_paper.html)  
+📄 CVPRW paper: [Towards Sim-to-Real Industrial Parts Classification With Synthetic Dataset](https://openaccess.thecvf.com/content/CVPR2023W/VISION/html/Zhu_Towards_Sim-to-Real_Industrial_Parts_Classification_With_Synthetic_Dataset_CVPRW_2023_paper.html)  
 and its 💻 GitHub Repo: [**SIP-17**](https://github.com/BilalTalha/SIP-17/tree/main)  
 
 
